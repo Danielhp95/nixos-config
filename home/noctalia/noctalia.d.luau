@@ -15,8 +15,9 @@ Hand-written from the C++ bindings, since noctalia ships no definitions:
   src/shell/**/plugin_*.cpp          the hooks noctalia calls back into
   docs/plugin-api.json               which plugin_api level introduced what
 Last checked against noctalia d6607b4 (2026-09-08, plugin API 30); levels 31
-and 32 added from e639a87 (2026-10-03), the rest not re-read. Re-check after a
-version bump; a stale entry here type-checks clean and then fails at runtime.
+and 32 added from e639a87 (2026-10-03) and 33 from 53b2e4c (2026-10-12), the
+rest not re-read. Re-check after a version bump; a stale entry here type-checks
+clean and then fails at runtime.
 
 All the globals are registered for every entry kind, so they are all declared
 unconditionally here. Availability is by effect, not existence: calling
@@ -474,7 +475,8 @@ right-click).
 Levels: dragSource / dropZone are panel-only (API 5); markdown, input
 submitOnEnter and scroll stickToBottom / onScroll / scrollToBottomRev are API
 21; input frameVisible is API 27; graph onPointerMove / onPointerLeave are
-API 29; `tooltip` on row / column / box / image is API 32. One line per level:
+API 29; `tooltip` on row / column / box / image is API 32; scroll revealKey
+(scrolls the child with that `key` into view) is API 33. One line per level:
 https://github.com/noctalia-dev/noctalia/blob/main/docs/plugin-api.json
 ]]
 declare ui: {
