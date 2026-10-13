@@ -862,14 +862,34 @@ hl.window_rule({
 -- hy3 has no per-workspace "always tab", so events tab ws9's root group. The
 -- dispatcher acts on the focused workspace, hence only while ws9 is active. With
 -- autotile off there, one change_group tabs every window; later ones join as tabs.
+--
+-- Only while ws9 has no tabs yet: change_group changes the one group that holds
+-- the focused window, so run on every visit it would turn a split made by hand
+-- (a tab moved out beside the others) into a second tab group around the first,
+-- with a tab bar of its own.
 -- ─────────────────────────────────────────────────────────────────────────────
 local MESSAGING_WS = 9
+
+-- A tab group shows one of its windows and hides the others, so a hidden tiled
+-- window means ws9 has tabs already.
+local function messaging_workspace_untabbed()
+	local tiled = 0
+	for _, win in ipairs(hl.get_windows()) do
+		if win.workspace and win.workspace.id == MESSAGING_WS and not win.floating then
+			if win.hidden then
+				return false
+			end
+			tiled = tiled + 1
+		end
+	end
+	return tiled > 0
+end
 
 local function tab_messaging_workspace()
 	-- Deferred, so a window that just opened is focused and counted.
 	after_event(function()
 		local ws = hl.get_active_workspace()
-		if ws and ws.id == MESSAGING_WS and ws.windows > 0 then
+		if ws and ws.id == MESSAGING_WS and messaging_workspace_untabbed() then
 			hl.dispatch(hy3.change_group("tab"))
 		end
 	end)
