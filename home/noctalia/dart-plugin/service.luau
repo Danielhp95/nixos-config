@@ -143,7 +143,14 @@ local HAS_NOTIFY_SEND = noctalia.commandExists("notify-send")
 
 -- $1 urgency, $2 icon, $3 title, $4 body, then the browser argv (URL last).
 -- notify-send prints the action key only on a click, so only a click opens it.
-local NOTIFY_SCRIPT = 'u=$1 i=$2 t=$3 b=$4; shift 4; '
+-- The fd loop comes first: noctalia's launcher opens its exec-status pipe
+-- without O_CLOEXEC, so toasts spawned in one burst inherit each other's, and
+-- a waiter holding one pins a detached-spawn slot (32, global) for its whole
+-- life. With the slots gone runAsync refuses and the toasts fall back to
+-- noctalia.notify: bell icon, no logo, no click. Multi-digit fds need bash.
+local NOTIFY_SCRIPT = '[ -n "$BASH_VERSION" ] && for f in /proc/$$/fd/*; do n=${f##*/}; '
+	.. '[ "$n" -gt 2 ] && eval "exec $n>&-"; done; '
+	.. 'u=$1 i=$2 t=$3 b=$4; shift 4; '
 	.. 'a=$(notify-send -a Noctalia -u "$u" -i "$i" -A "default=Open run" "$t" "$b"); '
 	.. '[ "$a" = default ] && exec "$@"'
 

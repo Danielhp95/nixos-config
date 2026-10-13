@@ -102,3 +102,9 @@ in the bar.
 - A clickable toast is a detached `notify-send -A default=…` waiting on the
   D-Bus reply, alive as long as its control-center history entry. Without
   `notify-send` on PATH the toasts are plain and unclickable.
+- Toasts with a bell instead of the dart logo are that same fallback: noctalia
+  refused the spawn. It allows 32 detached launches in flight, and one stays
+  "in flight" while any process still holds its exec-status pipe (created
+  without `O_CLOEXEC`), so the waiter's shell closes its inherited fds first.
+  To check: `ls -l /proc/$(systemctl --user show -p MainPID --value noctalia)/fd | grep -c pipe`
+  should not grow with the number of `notify-send` waiters.
