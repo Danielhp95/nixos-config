@@ -41,6 +41,10 @@ require("full-border"):setup({ type = ui.Border.ROUNDED })
 -- git status signs in the file list (fetchers registered in yazi.toml)
 require("git"):setup()
 
+-- MIME types by extension on GVfs mounts (the fetcher is registered in
+-- yazi.toml). An extension its table lacks still goes to file(1).
+require("mime-ext.local"):setup({ fallback_file1 = true })
+
 -- MTP phones / network shares (the M menu). setup() is mandatory: it seeds the
 -- gvfs root mountpoint that the jump/unmount paths concatenate unguarded.
 require("gvfs"):setup()

@@ -58,6 +58,9 @@ in
       full-border = "${officialPlugins}/full-border.yazi";
       # Any shell command as a previewer: the notebook and CSV rules below
       piper = "${officialPlugins}/piper.yazi";
+      # MIME type from the extension instead of file(1), on GVfs mounts only
+      # (the fetcher rule below): reading the head of every file there is slow
+      mime-ext = "${officialPlugins}/mime-ext.yazi";
       # Local plugin: cd to sibling dirs of the parent from anywhere (K/J on parent pane)
       parent-arrow = ./parent-arrow;
       tv = pkgs.fetchFromGitHub {
@@ -131,6 +134,14 @@ in
             url = "*/";
             run = "git";
             group = "git";
+          }
+          # mime-ext.yazi for the files on GVfs mounts. Only the first match
+          # of a group runs, and this one is ahead of the preset's file(1).
+          {
+            url = "/run/user/1000/gvfs/**/*";
+            run = "mime-ext.local";
+            prio = "high";
+            group = "mime";
           }
         ];
         # mediainfo.yazi replaces the built-in image/video previewers. GVfs
