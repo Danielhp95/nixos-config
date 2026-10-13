@@ -64,7 +64,7 @@
     iris = {
       type = "git";
       url = "https://github.com/versenilvis/IRIS";
-      rev = "ac1cfe72820bbbb0f0eb3fb017a6b1e7f3fcb2fe";
+      rev = "96597b495b2aba305b0687e9460b06fab0a44208";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Separate repo, gitignored here. A commit there reaches a rebuild only
