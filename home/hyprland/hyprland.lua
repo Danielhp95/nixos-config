@@ -302,6 +302,7 @@ hl.gesture({ fingers = 3, direction = "horizontal", action = "move" })
 hl.gesture({ fingers = 4, direction = "up", action = "fullscreen" })
 hl.gesture({ fingers = 4, direction = "down", action = "float" })
 hl.gesture({ fingers = 4, direction = "horizontal", scale = 0.5, action = "workspace" })
+-- The three-finger pinch is with the magnifier binds below.
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Keybindings
@@ -592,18 +593,45 @@ hl.bind(
 	{ locked = true, description = "Toggle mic mute" }
 )
 
--- Magnifier (`magnify` script, ./default.nix)
-hl.bind(
-	mod .. " + CTRL + Z",
-	hl.dsp.exec_cmd(bin.magnify .. " -0.5"),
-	{ repeating = true, description = "Zoom out (magnifier)" }
-)
-hl.bind(
-	mod .. " + SHIFT + Z",
-	hl.dsp.exec_cmd(bin.magnify .. " +0.5"),
-	{ repeating = true, description = "Zoom in (magnifier)" }
-)
-hl.bind(mod .. " + Z", hl.dsp.exec_cmd(bin.magnify), { description = "Toggle magnifier zoom" })
+-- Magnifier. cursor.zoom_factor is its only state, and Hyprland eases every
+-- change to it (the zoomFactor animation leaf: 800ms, from `global`), so
+-- nothing here steps the zoom.
+local function zoom()
+	return hl.get_config("cursor.zoom_factor")
+end
+local function set_zoom(factor)
+	hl.config({ cursor = { zoom_factor = math.max(1, math.min(10, factor)) } })
+end
+hl.bind(mod .. " + CTRL + Z", function()
+	set_zoom(zoom() - 0.5)
+end, { repeating = true, description = "Zoom out (magnifier)" })
+hl.bind(mod .. " + SHIFT + Z", function()
+	set_zoom(zoom() + 0.5)
+end, { repeating = true, description = "Zoom in (magnifier)" })
+-- Back in at 2x every time, not at the level the other binds had reached.
+hl.bind(mod .. " + Z", function()
+	set_zoom(zoom() > 1 and 1 or 2)
+end, { description = "Toggle magnifier zoom" })
+-- Pinch, through the same option. The built-in `cursor_zoom` action zooms the
+-- monitor without writing it, so the binds above could neither see nor undo
+-- that zoom. Three fingers: a two-finger pinch also reaches the window under
+-- the pointer (Firefox's page zoom).
+local pinch_from -- the zoom when the pinch began
+hl.gesture({
+	fingers = 3,
+	direction = "pinch",
+	action = {
+		start = function()
+			pinch_from = zoom()
+		end,
+		-- Below 1.05 counts as zoomed out: a pinch that stops just short of 1
+		-- would leave a zoom too small to see, which the toggle then "undoes".
+		update = function(e)
+			local factor = pinch_from * e.scale
+			set_zoom(factor < 1.05 and 1 or factor)
+		end,
+	},
+})
 
 -- Projector: mirror this panel onto whatever external display is attached
 hl.bind(

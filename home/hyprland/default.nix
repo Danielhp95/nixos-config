@@ -46,52 +46,6 @@ let
     '';
   };
 
-  # Screen magnifier on cursor:zoom_factor, eased in short steps instead of one
-  # jump. `hyprctl keyword` is a no-op under the Lua config, hence `hyprctl eval`.
-  magnifyScript = pkgs.writeShellScriptBin "magnify" ''
-    awk=${lib.getExe pkgs.gawk}
-    steps=10
-    frame=0.008
-    default=2.0   # zoom level a bare `magnify` toggles to
-    max=10.0
-
-    cur=$(hyprctl getoption cursor:zoom_factor | $awk '/^float/{print $2}')
-    [ -n "$cur" ] || cur=1.0
-
-    case "''${1:-toggle}" in
-      toggle)
-        # zooming out forgets the level we were at: the next toggle always comes
-        # back at $default rather than however far the +/- binds had crept up
-        if $awk -v c="$cur" 'BEGIN{exit !(c > 1.01)}'; then
-          target=1.0
-        else
-          target="$default"
-        fi
-        ;;
-      reset) target=1.0 ;;
-      status) echo "$cur"; exit 0 ;;
-      +*|-*) target=$($awk -v c="$cur" -v d="''${1}" 'BEGIN{print c + d}') ;;
-      *)
-        case "$1" in
-          *[!0-9.]*|"") echo "usage: magnify [toggle|reset|status|+N|-N|<factor>]" >&2; exit 1 ;;
-        esac
-        target="$1"
-        ;;
-    esac
-
-    # cursor:zoom_factor < 1.0 is invalid; clamp both ends
-    target=$($awk -v t="$target" -v m="$max" 'BEGIN{if(t<1)t=1; if(t>m)t=m; printf "%.3f", t}')
-
-    # all frames from one awk (eased out); a subshell per frame made the
-    # animation visibly laggy when a +/- bind is held down
-    $awk -v c="$cur" -v t="$target" -v n="$steps" \
-      'BEGIN{for(i=1;i<=n;i++){p=i/n; e=1-(1-p)*(1-p); printf "%.3f\n", c+(t-c)*e}}' |
-    while read -r v; do
-      hyprctl eval "hl.config({ cursor = { zoom_factor = $v } })" >/dev/null
-      sleep $frame
-    done
-  '';
-
   # Projector mirroring with Hyprland's native mirror, which letterboxes the
   # 16:10 panel on a 16:9 screen instead of stretching it. The rule goes in
   # through `hyprctl eval` and survives a reload via hyprland.lua's runtime-state
@@ -193,7 +147,6 @@ in
       # fails the evaluation instead of leaving a dead bind.
       bin._var = {
         ocr = lib.getExe ocrScript;
-        magnify = lib.getExe magnifyScript;
         present = lib.getExe presentScript;
         volume = lib.getExe pkgs.volume-all-sinks;
       };
@@ -222,7 +175,6 @@ in
     wl-mirror
 
     ocrScript
-    magnifyScript
     presentScript
 
     slurp # the palette-coloured wrapper from the let block
