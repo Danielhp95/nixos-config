@@ -446,7 +446,11 @@ hl.bind(mod .. " + SHIFT + Q", hl.dsp.window.close(), { description = "Close win
 hl.bind(mod .. " + E", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" })
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen(), { description = "Toggle fullscreen" })
 
--- Special workspaces
+-- Special workspaces. The scratchpad opens with a terminal whenever the toggle
+-- has to create it, i.e. while it holds no window. Plain `kitty`, not the `-1`
+-- of the terminal bind: Hyprland places the process it started, and with `-1`
+-- the window would come from the kitty already running.
+hl.workspace_rule({ workspace = "special:special", on_created_empty = "kitty" })
 hl.bind(mod .. " + Minus", hl.dsp.workspace.toggle_special(), { description = "Toggle special workspace" })
 hl.bind(
 	mod .. " + SHIFT + Minus",
