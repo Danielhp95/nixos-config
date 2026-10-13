@@ -8,13 +8,14 @@ let
   p = theme.hash;
 
   # https://github.com/yazi-rs/plugins — this pin MUST track nixpkgs' yazi
-  # (26.9.1; this rev targets 26.8.15 and runs clean on 26.9.1): the plugin API
-  # is versioned and a mismatch only fails at runtime (e.g. yazi #4235's fetchers).
+  # (26.9.1; this rev already follows yazi's unreleased API, behind fallbacks
+  # that run clean on 26.9.1): the plugin API is versioned and a mismatch only
+  # fails at runtime (e.g. yazi #4235's fetchers).
   officialPlugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "6f26ae04ba2e4763faada6a7997ae8b57c158cdb";
-    hash = "sha256-pySI+LxiGmGEp/cvVXtuOuNzvy3c2QC6zuoTjActPbw=";
+    rev = "603fa36d554750a827bbdb3b4d5f779c5b066c38";
+    hash = "sha256-DfcN2VU+8iQazgT9MXm2dj7742W5fhScSm1FEkd/5Tk=";
   };
 in
 {
@@ -51,8 +52,8 @@ in
       compress = pkgs.fetchFromGitHub {
         owner = "KKV9";
         repo = "compress.yazi";
-        rev = "e60e122e565e7c4798ef22767eb363428dc6704e";
-        hash = "sha256-yts/LCDpCH9cH1pY6Im/UpCQDCyzjhSGDZfGpQDdEZc=";
+        rev = "80e5268ec74c7ac17d4d739e13a9958cba4c70d3";
+        hash = "sha256-9cdA8D/TtwHcLqrtoyIixA0YJmTs+c8FSNrjxp8CYI0=";
       };
       yamb = pkgs.fetchFromGitHub {
         owner = "h-hg";
@@ -66,12 +67,14 @@ in
         rev = "7bfcfcbda078b7e51d1ff9a62db9c654a3952fa4";
         hash = "sha256-pmyS1rU5C6U9LloGoDFB8s6GwoMqG1Jve5OFooI64tU=";
       };
-      # Thumbnail + metadata preview (needs mediainfo, ffmpeg and imagemagick)
+      # Thumbnail + metadata preview (needs mediainfo, ffmpeg and imagemagick).
+      # The repo's last commit: upstream deprecated it on 2026-09-08, as it did
+      # restore.yazi and gvfs.yazi, with yazi 26.9.1 the newest it supports.
       mediainfo = pkgs.fetchFromGitHub {
         owner = "boydaihungst";
         repo = "mediainfo.yazi";
-        rev = "e079a001f4fefd69007e515bbede4e16b95a811e";
-        hash = "sha256-RIVcKJO89R4oaE6sJuFcV8pFK4nvWtq6ILAXehu4FIY=";
+        rev = "f1cec0b43a6b5904e1638ad050f044c4eb1383da";
+        hash = "sha256-p+wfTgQ4Td7Q/AIzsECzijam3NcPXxEPrpnUnT/028E=";
       };
       # Phones (MTP), cameras and network shares via GVfs; the system side is
       # services.gvfs and services.udisks2 in nixos/desktop.nix.
