@@ -32,6 +32,7 @@ in
   (key "+" "plugin zoom 1" "Zoom in hovered file")
   (key "-" "plugin zoom -1" "Zoom out hovered file")
   (key "l" "plugin smart-enter" "Enter dir / open file with one key")
+  (key "i" "plugin easyjump" "Jump to a visible file by its label")
   (key "c m" "plugin chmod" "Chmod selected files")
   (key "c a" "plugin compress" "Archive selected files")
   # Move to sibling dir of the parent without leaving cwd

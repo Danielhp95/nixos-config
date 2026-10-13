@@ -61,6 +61,17 @@ in
       # MIME type from the extension instead of file(1), on GVfs mounts only
       # (the fetcher rule below): reading the head of every file there is slow
       mime-ext = "${officialPlugins}/mime-ext.yazi";
+      # Jump to a visible file by its label, like Vimium's link hints. Set up
+      # from here, not in init.lua: the label colours are the palette's.
+      easyjump = {
+        package = pkgs.yaziPlugins.easyjump;
+        setup = true;
+        settings = {
+          icon_fg = p.accent;
+          # the first key of a two-key label, once typed
+          first_key_fg = p.gold;
+        };
+      };
       # Local plugin: cd to sibling dirs of the parent from anywhere (K/J on parent pane)
       parent-arrow = ./parent-arrow;
       tv = pkgs.fetchFromGitHub {
