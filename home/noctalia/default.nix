@@ -83,6 +83,12 @@ in
         };
       };
 
+      # Light/dark for GTK4, libadwaita and Firefox content, which follow the
+      # dconf color-scheme key. noctalia writes it only from its GTK templates,
+      # and those would replace the gtk.css files Home Manager owns.
+      # https://docs.noctalia.dev/noctalia/automation/hooks/
+      hooks.theme_mode_changed = "${lib.getExe pkgs.dconf} write /org/gnome/desktop/interface/color-scheme \"'prefer-$NOCTALIA_THEME_MODE'\"";
+
       # Feeds the nightlight schedule and the weather widget.
       location.auto_locate = true;
 
