@@ -367,6 +367,13 @@ end
 hl.bind(mod .. " + TAB", hl.dsp.focus({ workspace = "previous" }), { description = "Focus previous workspace" })
 hl.bind(mod .. " + comma", hl.dsp.focus({ workspace = "e-1" }), { description = "Focus previous empty workspace" })
 hl.bind(mod .. " + period", hl.dsp.focus({ workspace = "e+1" }), { description = "Focus next empty workspace" })
+-- This monitor and the next trade the workspaces they show. Focus goes with the
+-- workspace that had it, so the window being worked in moves to the other
+-- screen; with three monitors each press carries it one further.
+hl.bind(mod .. " + X", function()
+	hl.dispatch(hl.dsp.workspace.swap_monitors({ monitor1 = "current", monitor2 = "+1" }))
+	hl.dispatch(hl.dsp.focus({ monitor = "+1" }))
+end, { description = "Swap workspaces with the next monitor" })
 
 local layout_bind = mod .. " + N"
 
