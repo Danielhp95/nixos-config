@@ -23,10 +23,13 @@ in
   danvim = import ./danvim.nix { inherit inputs system theme; };
   # hy3 links against Hyprland's headers: build it against this Hyprland.
   inherit hyprland;
-  # Patched (outfoxxed/hy3#304, unmerged): moving the only window of a
-  # workspace, floating, with hy3.move_to_workspace(..., { follow = true })
-  # dereferenced a null node and killed Hyprland. When the hy3 input ships the
-  # fix the patch stops applying: delete it and this override.
+  # Patched (outfoxxed/hy3#343, unmerged): hy3.move_to_workspace(..., { follow
+  # = true }) lets Hyprland move a floating or fullscreen window, then followed
+  # with its own node for it. That node is null for a workspace's only window,
+  # floating, and freed for a fullscreen one (both killed Hyprland); beside
+  # tiled windows it is one of those, so the view stayed behind. The patch
+  # follows the moved window instead. When the hy3 input ships the fix the
+  # patch stops applying: delete it and this override.
   hy3 = (inputs.hy3.packages.${system}.hy3.override { inherit hyprland; }).overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [ ../home/hyprland/hy3-follow-without-node.patch ];
   });
