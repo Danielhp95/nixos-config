@@ -727,9 +727,26 @@ hl.window_rule({
 	match = { class = "steam" },
 	workspace = 6,
 })
+-- By class: the title is "Spotify Premium" from the start, never plain "Spotify".
 hl.window_rule({
-	name = "spotify-ws8",
-	match = { title = "Spotify" },
+	name = "spotify-ws7",
+	match = { class = "^spotify$" },
+	workspace = 7,
+})
+hl.window_rule({
+	name = "feishin-ws7",
+	match = { class = "^feishin$" },
+	workspace = 7,
+})
+-- By title: Grayjay's class is the generic "cef".
+hl.window_rule({
+	name = "grayjay-ws7",
+	match = { title = "Grayjay" },
+	workspace = 7,
+})
+hl.window_rule({
+	name = "mail-calendar-apps",
+	match = { class = "^(io\\.github\\.c9dev\\.PenguinMail|org\\.gnome\\.Calendar)$" },
 	workspace = 8,
 })
 hl.window_rule({
@@ -809,7 +826,10 @@ hl.window_rule({
 -- Nerdfont names for the noctalia workspaces widget (display = "name")
 hl.workspace_rule({ workspace = "1", default_name = "󰈹" }) -- firefox
 hl.workspace_rule({ workspace = "2", default_name = "󰆍" }) -- terminal
-hl.workspace_rule({ workspace = "9", default_name = "󰇮" }) -- envelope (messaging)
+hl.workspace_rule({ workspace = "6", default_name = "󰊴" }) -- game controller (games)
+hl.workspace_rule({ workspace = "7", default_name = "󰎇" }) -- musical note (media, music)
+hl.workspace_rule({ workspace = "8", default_name = "󰇮" }) -- envelope (mail, calendar)
+hl.workspace_rule({ workspace = "9", default_name = "󰭹" }) -- chat bubble (messaging)
 
 -- Tiled windows cast no shadow: with no gaps it would fall across the
 -- neighbouring window and show through its transparency.
