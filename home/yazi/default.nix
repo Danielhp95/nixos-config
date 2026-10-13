@@ -17,6 +17,21 @@ let
     rev = "603fa36d554750a827bbdb3b4d5f779c5b066c38";
     hash = "sha256-DfcN2VU+8iQazgT9MXm2dj7742W5fhScSm1FEkd/5Tk=";
   };
+
+  # piper.yazi's previewers (settings.plugin below) run these on the file.
+  # A notebook as the markdown it reads as: prose and raw cells as they are,
+  # code cells fenced in the notebook's own language.
+  notebookCells = ''
+    (.metadata.language_info.name // .metadata.kernelspec.language // "python" | ascii_downcase) as $lang
+    | .cells[]
+    | (.source | if type == "array" then join("") else . end) as $src
+    | if .cell_type == "code" then "```\($lang)", $src, "```", "" else $src, "" end
+  '';
+  # A CSV as a table. --no-infer keeps every cell as written (nushell would
+  # show 0.00847 as 0.01), --flexible takes the record `head` may cut short.
+  # A file without rows is shown as it is: its table is the words "empty list",
+  # even when there is a header line.
+  csvTable = "let text = $in; let rows = $text | from csv --no-infer --flexible; if ($rows | is-empty) { $text } else { $rows | table --index false --width ($env.w | into int) }";
 in
 {
   imports = [
@@ -41,6 +56,8 @@ in
       smart-enter = "${officialPlugins}/smart-enter.yazi";
       git = "${officialPlugins}/git.yazi";
       full-border = "${officialPlugins}/full-border.yazi";
+      # Any shell command as a previewer: the notebook and CSV rules below
+      piper = "${officialPlugins}/piper.yazi";
       # Local plugin: cd to sibling dirs of the parent from anywhere (K/J on parent pane)
       parent-arrow = ./parent-arrow;
       tv = pkgs.fetchFromGitHub {
@@ -138,6 +155,17 @@ in
           {
             url = "/run/user/1000/gvfs/**/*";
             run = "noop";
+          }
+          # piper.yazi: "$1" is the file, $w the width of the preview pane.
+          # Prose wraps at $w, as piper clips what is wider.
+          {
+            url = "*.ipynb";
+            run = ''piper -- ${lib.getExe pkgs.jq} -r ${lib.escapeShellArg notebookCells} "$1" | fold -sw "$w" | ${lib.getExe pkgs.bat} -pl md --color=always'';
+          }
+          # The first 500 rows: nushell draws a table only once it has all of it
+          {
+            url = "*.csv";
+            run = ''piper -- head -n 501 "$1" | ${lib.getExe pkgs.nushell} --no-config-file --stdin -c ${lib.escapeShellArg csvTable}'';
           }
           {
             mime = "{audio,video,image}/*";
