@@ -142,16 +142,11 @@ in
         fill_mode = "crop";
       };
 
-      notification = {
-        enable_daemon = true;
-        # Mutes notification sounds only (audio.enable_sounds would also kill
-        # the volume/screenshot/plug sounds). Filters are first-match and "^"
-        # matches everything, so a per-app filter must sort before this one.
-        filter.silent = {
-          match_content = "^";
-          play_sound = false;
-        };
-      };
+      notification.enable_daemon = true;
+
+      # No sound on notifications; the volume, screenshot and charger sounds
+      # stay (audio.enable_sounds is the master switch over all four).
+      audio.enable_notification_sounds = false;
 
       # The built-in panel has a sysfs backlight; pin that backend so noctalia
       # never falls back to ddc/none.
