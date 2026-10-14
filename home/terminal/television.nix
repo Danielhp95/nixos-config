@@ -268,9 +268,10 @@ in
         "ctrl-k" = "select_prev_entry";
         "ctrl-up" = "select_prev_history";
         "ctrl-down" = "select_next_history";
-        tab = "select_next_entry";
+        # The list keys of common.fzfListBinds: Tab marks the row and moves
+        # down, Shift-Tab only moves up (tv's default marks on the way up too).
+        tab = "toggle_selection_down";
         backtab = "select_prev_entry";
-        # Multi-select lives here: tab navigates instead of tv's default.
         "ctrl-space" = "toggle_selection_down";
         enter = "confirm_selection";
         pagedown = "scroll_preview_half_page_down";

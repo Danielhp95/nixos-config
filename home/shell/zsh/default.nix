@@ -13,6 +13,10 @@ let
     zstyle ':completion:*:descriptions' format '[%d]'
     zstyle ':completion:*' list-colors ${"\${(s.:.)LS_COLORS}"}
 
+    # fzf-tab ignores FZF_DEFAULT_OPTS and binds tab:down itself; these are
+    # appended to its own binds, so they win.
+    zstyle ':fzf-tab:*' fzf-bindings '${common.fzfListBinds}'
+
     # Completions for specific programs
     zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
   '';

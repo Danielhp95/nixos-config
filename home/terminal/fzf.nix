@@ -5,6 +5,7 @@
   ...
 }:
 let
+  common = import ../shell/common.nix;
   p = theme.hash;
 in
 {
@@ -16,7 +17,10 @@ in
     # Set here, not appended in zshrc, where the exported variable would gain
     # a copy of the binding per nesting level. Literal `nvim`, not $EDITOR:
     # nushell loads session variables unexpanded.
-    defaultOptions = [ "--bind='ctrl-e:execute(nvim {} > /dev/tty)+abort'" ];
+    defaultOptions = [
+      "--bind='ctrl-e:execute(nvim {} > /dev/tty)+abort'"
+      "--bind=${common.fzfListBinds}"
+    ];
     # Colours: FZF_DEFAULT_OPTS_FILE, below.
   };
 
