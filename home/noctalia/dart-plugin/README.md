@@ -68,7 +68,7 @@ panel.luau  (renders cards; runs mutations itself)      widget.luau  (badge)
 | `dart_path`    | `/home/dani/Projects/sai/.venv/bin/dart` | dart CLI (works outside the FHS shell) |
 | `nu_path`      | `/etc/profiles/per-user/dani/bin/nu`     | nushell for `slim.nu`            |
 | `username`     | `daniel.hernandez`                       | `--username-ss` scope            |
-| `limit`        | 100                                      | `--limit` for every query        |
+| `limit`        | 1000                                     | `--limit` for every query        |
 | `poll_seconds` | 120                                      | background poll cadence          |
 
 ## Dev loop

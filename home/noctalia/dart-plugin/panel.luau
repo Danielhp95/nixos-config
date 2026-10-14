@@ -35,6 +35,9 @@ local TAG_INPUT_WIDTH = 420
 local CHIP_ROW_BUDGET = 1100 -- panel minus panel/card padding, conservative
 local CHIP_MAX_CHARS = 44 -- longer tags are ellipsized on the chip
 local CHIP_PX_PER_CHAR = 5.3 -- fontSize-11 width estimate for row packing
+-- Unpinned cards drawn per render: ~100 already fill the 25 ms budget and
+-- ui.scroll drops children past 256, while --limit can return hundreds of runs.
+local MAX_CARDS = 100
 
 -- Theme-role color per run state; anything unlisted (the startup states:
 -- submitting/building/queued/...) falls through to "secondary".
@@ -892,6 +895,13 @@ local function centered(nodes)
 	return ui.column({ flexGrow = 1, align = "center", justify = "center", gap = 10 }, nodes)
 end
 
+-- A muted one-line note in the card list.
+local function noteRow(text)
+	return ui.row({ justify = "center", padding = 8 }, {
+		ui.label({ text = text, color = "on_surface_variant", fontSize = 12 }),
+	})
+end
+
 -- Filter bar: free-form `dart run filter` args. Enter or the search button
 -- applies; filter-off returns to the default query.
 local function filterBar()
@@ -978,12 +988,14 @@ render = function()
 	else
 		-- Pinned cards lead, in pin order, on the list's row when it has one;
 		-- the list follows without them.
-		local cards, rest, listed = {}, {}, {}
+		local cards, rest, listed, hidden = {}, {}, {}, 0
 		for _, run in ipairs(runs) do
 			if pinnedSet[run.id] then
 				listed[run.id] = run
-			else
+			elseif #rest < MAX_CARDS then
 				rest[#rest + 1] = runCard(run)
+			else
+				hidden += 1
 			end
 		end
 		for _, id in ipairs(pinned) do
@@ -1000,11 +1012,12 @@ render = function()
 			})
 		else
 			if #rest == 0 then -- only pins on screen: say the list itself is empty
-				cards[#cards + 1] = ui.row({ justify = "center", padding = 8 }, {
-					ui.label({ text = empty, color = "on_surface_variant", fontSize = 12 }),
-				})
+				cards[#cards + 1] = noteRow(empty)
 			else
 				table.move(rest, 1, #rest, #cards + 1, cards)
+			end
+			if hidden > 0 then
+				cards[#cards + 1] = noteRow("+" .. hidden .. " more · narrow with the filter")
 			end
 			body = ui.scroll({ flexGrow = 1, gap = 8 }, cards)
 		end
