@@ -83,8 +83,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1791926961,
-        "narHash": "sha256-JCznyEki0mJLYrnlnaFsODMHSC2+HcO5n4c4k1wvHIc=",
+        "lastModified": 1791927279,
+        "narHash": "sha256-+mw+NrlkS9jesjf/MwmGwyBxwiqLWTf1EZr2dfQai3o=",
         "path": "/home/dani/nix_config/danvim",
         "type": "path"
       },
@@ -614,16 +614,16 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1788538192,
-        "narHash": "sha256-xiSjMr7dgDeI3rDeCLKtO66mJe0ssTuT7W+rMNuNjJg=",
+        "lastModified": 1791907048,
+        "narHash": "sha256-Gn+wRf4gYlpoYNhJmN4orRpvwOJFut4oFN0eB0pw2ls=",
         "ref": "refs/heads/main",
-        "rev": "ac1cfe72820bbbb0f0eb3fb017a6b1e7f3fcb2fe",
-        "revCount": 243,
+        "rev": "96597b495b2aba305b0687e9460b06fab0a44208",
+        "revCount": 255,
         "type": "git",
         "url": "https://github.com/versenilvis/IRIS"
       },
       "original": {
-        "rev": "ac1cfe72820bbbb0f0eb3fb017a6b1e7f3fcb2fe",
+        "rev": "96597b495b2aba305b0687e9460b06fab0a44208",
         "type": "git",
         "url": "https://github.com/versenilvis/IRIS"
       }
