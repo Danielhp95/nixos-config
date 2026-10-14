@@ -11,6 +11,7 @@ wl-kbptr.overrideAttrs (old: {
     rev = "6ef84f398816b7a007ba969047e43d095f332175";
     hash = "sha256-nprdHawJqZK0zL0XcHuxmJquDLPKjl1z0rx5cRbkDe0=";
   };
+  # TODO: add patches from this Pull request: https://github.com/moverest/wl-kbptr/pull/80/changes
   patches = (old.patches or [ ]) ++ [
     # Floating mode draws a Vimium-shaped tag at each target's corner
     # (rounded, bold, upper case) instead of a block over the target, with
