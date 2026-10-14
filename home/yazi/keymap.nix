@@ -10,7 +10,8 @@ let
 in
 [
   (key "g c" "plugin vcs-files" "Show Git file changes")
-  (key "<c-f>" "plugin tv" "Jump to a file via television")
+  (key "<c-f>" "plugin broot" "Search with broot and jump to the path")
+  (key "<c-t>" "plugin tv" "Jump to a file via television")
   (key "<c-d>" "plugin tv dirs" "Jump to a directory via television")
   (key "<C-g>" "plugin tv text" "Open files using neovim and jump to where the string is located")
   # Every mount action lives under M (a which-key menu), the only free

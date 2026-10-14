@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   theme,
   ...
 }:
@@ -19,14 +20,6 @@ let
   };
 
   # piper.yazi's previewers (settings.plugin below) run these on the file.
-  # A notebook as the markdown it reads as: prose and raw cells as they are,
-  # code cells fenced in the notebook's own language.
-  notebookCells = ''
-    (.metadata.language_info.name // .metadata.kernelspec.language // "python" | ascii_downcase) as $lang
-    | .cells[]
-    | (.source | if type == "array" then join("") else . end) as $src
-    | if .cell_type == "code" then "```\($lang)", $src, "```", "" else $src, "" end
-  '';
   # A CSV as a table. --no-infer keeps every cell as written (nushell would
   # show 0.00847 as 0.01), --flexible takes the record `head` may cut short.
   # A file without rows is shown as it is: its table is the words "empty list",
@@ -74,6 +67,8 @@ in
       };
       # Local plugin: cd to sibling dirs of the parent from anywhere (K/J on parent pane)
       parent-arrow = ./parent-arrow;
+      # Search with broot and reveal the pick (<c-f>)
+      broot = ./broot;
       tv = pkgs.fetchFromGitHub {
         owner = "cap153";
         repo = "tv.yazi";
@@ -182,7 +177,7 @@ in
           # Prose wraps at $w, as piper clips what is wider.
           {
             url = "*.ipynb";
-            run = ''piper -- ${lib.getExe pkgs.jq} -r ${lib.escapeShellArg notebookCells} "$1" | fold -sw "$w" | ${lib.getExe pkgs.bat} -pl md --color=always'';
+            run = ''piper -- ${lib.getExe pkgs.jq} -r -f ${../terminal/notebook-cells.jq} "$1" | fold -sw "$w" | ${lib.getExe pkgs.bat} -pl md --color=always'';
           }
           # The first 500 rows: nushell draws a table only once it has all of it
           {
@@ -197,6 +192,15 @@ in
       };
     };
   };
+  # The broot plugin's look, from ../terminal/broot.nix. JSON is hjson.
+  xdg.configFile."yazi/broot-look.hjson".text = builtins.toJSON (
+    lib.getAttrs [
+      "skin"
+      "icon_theme"
+      "kitty_graphics_display"
+      "preview_transformers"
+    ] config.programs.broot.settings
+  );
   home.packages = with pkgs; [
     exiftool # Tool to read, write and edit EXIF meta information
     imagemagick # For resizing preview images
