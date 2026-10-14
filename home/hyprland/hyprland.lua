@@ -900,6 +900,32 @@ hl.on("window.open", tab_messaging_workspace) -- launching an app on ws9
 hl.on("window.move_to_workspace", tab_messaging_workspace) -- dragging an app onto ws9
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- Swallowing a fullscreen terminal
+-- Hyprland (663b29b) hides a swallowed window but leaves it the workspace's
+-- fullscreen window: the window that took its place is drawn under nothing and
+-- never focused, a blank screen until it closes. So the fullscreen or maximized
+-- state moves over to the swallower, and exit_window_retains_fullscreen hands
+-- it back to the terminal when the swallower closes.
+-- ─────────────────────────────────────────────────────────────────────────────
+local FULLSCREEN_MODES = { "maximized", "fullscreen" } -- window.fullscreen 1, 2
+
+-- open_early: the swallow is decided (window.swallowing) and not carried out yet.
+hl.on("window.open_early", function(win)
+	local swallowed = win.swallowing
+	local mode = swallowed and FULLSCREEN_MODES[swallowed.fullscreen]
+	if not mode then
+		return
+	end
+	hl.dispatch(hl.dsp.window.fullscreen({ mode = mode, action = "unset", window = swallowed }))
+	-- A window that a rule opens on another workspace stays as it is there.
+	if win.workspace and swallowed.workspace and win.workspace.id == swallowed.workspace.id then
+		after_event(function()
+			hl.dispatch(hl.dsp.window.fullscreen({ mode = mode, action = "set", window = win }))
+		end)
+	end
+end)
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Return window of the unfocused monitors
 -- Hyprland has no rule for "the window I would land on if I moved to that
 -- monitor", so events keep a `monitor-return` tag on exactly those windows: the
