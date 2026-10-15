@@ -341,9 +341,10 @@ local function runAction(action, id)
 				res.timedOut and "timed out - try `dart login` in a terminal" or res.stderr:sub(-300)
 			)
 		else
+			-- Success stays quiet: the poller's transition toast (DART logo,
+			-- clickable) already reports the new state on the refresh below.
 			local mod = noctalia.json.decode(res.stdout)
 			if type(mod) == "table" and mod.successful_ids and #mod.successful_ids > 0 then
-				noctalia.notify("dart " .. action, table.concat(mod.successful_ids, ", "))
 				if action == "delete" and pinnedSet[id] then
 					togglePin(id) -- else the pin lingers as a "gone" card
 				end
