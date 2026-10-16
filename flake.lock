@@ -839,6 +839,27 @@
         "type": "github"
       }
     },
+    "penguin-mail": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792160790,
+        "narHash": "sha256-zX2OT3F2MqkpQ9KAuM3zSk0o9gewzC/rzdbF+mFvzes=",
+        "owner": "c9dev",
+        "repo": "penguin-mail",
+        "rev": "8e0850a6e1c6f367e71933c8bf5a941bcf199ce0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "c9dev",
+        "repo": "penguin-mail",
+        "rev": "8e0850a6e1c6f367e71933c8bf5a941bcf199ce0",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -879,6 +900,7 @@
         "nixpkgs": "nixpkgs_2",
         "noctalia": "noctalia",
         "omnibin": "omnibin",
+        "penguin-mail": "penguin-mail",
         "socratic-skills": "socratic-skills",
         "spicetify-nix": "spicetify-nix",
         "stable": "stable",

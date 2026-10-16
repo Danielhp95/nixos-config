@@ -17,8 +17,16 @@ in
   # Steps every output sink at once: the bar's volume pill and hyprland.lua's
   # volume keys.
   volume-all-sinks = final.callPackage ./volume-all-sinks/package.nix { };
-  # Upstream's release, patched for the store (./penguin-mail).
-  penguin-mail = final.callPackage ./penguin-mail/package.nix { };
+  # pdftotext is what the assistant reads a PDF attachment with, and DICPATH
+  # is where the composer looks first for a spelling dictionary.
+  penguin-mail = inputs.penguin-mail.packages.${system}.penguin-mail.overrideAttrs (old: {
+    preFixup = old.preFixup + ''
+      gappsWrapperArgs+=(
+        --suffix PATH : ${final.lib.makeBinPath [ final.poppler-utils ]}
+        --suffix DICPATH : ${final.hunspellDicts.en_US}/share/hunspell
+      )
+    '';
+  });
   # danvim with the selected palette injected (./danvim.nix).
   danvim = import ./danvim.nix { inherit inputs system theme; };
   # hy3 links against Hyprland's headers: build it against this Hyprland.

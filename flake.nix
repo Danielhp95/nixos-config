@@ -67,6 +67,8 @@
       rev = "96597b495b2aba305b0687e9460b06fab0a44208";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    penguin-mail.url = "github:c9dev/penguin-mail/8e0850a6e1c6f367e71933c8bf5a941bcf199ce0";
+    penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
     # Separate repo, gitignored here. A commit there reaches a rebuild only
     # after `nix flake update danvim`.
     danvim.url = "path:/home/dani/nix_config/danvim";
