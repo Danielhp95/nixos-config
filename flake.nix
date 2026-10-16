@@ -23,7 +23,9 @@
     multiverse.url = "github:fzakaria/nixpkgs-multiverse";
 
     # hy3 builds against Hyprland's headers: pin both revs and move them
-    # together, to a Hyprland rev hy3 supports.
+    # together, to a Hyprland rev hy3 supports. Hyprland stays a git fetch: it
+    # compiles the commit count (revCount) into its version, which a tarball
+    # lacks.
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
@@ -31,25 +33,17 @@
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hy3 = {
-      type = "git";
-      url = "https://github.com/outfoxxed/hy3/";
-      rev = "c35adfa3620a88484fafbbe37dc4d99b19319308";
-      submodules = true;
-      inputs.hyprland.follows = "hyprland";
-    };
+    hy3.url = "github:outfoxxed/hy3/c35adfa3620a88484fafbbe37dc4d99b19319308";
+    hy3.inputs.hyprland.follows = "hyprland";
+    # A git fetch: a GitHub tarball leaves out its hyprland-protocols submodule.
     hyprland-preview-share-picker = {
       type = "git";
       url = "https://github.com/WhySoBad/hyprland-preview-share-picker";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      type = "git";
-      url = "https://github.com/noctalia-dev/noctalia";
-      submodules = true;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    noctalia.url = "github:noctalia-dev/noctalia";
+    noctalia.inputs.nixpkgs.follows = "nixpkgs";
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -61,12 +55,8 @@
     claude-code.inputs.nixpkgs.follows = "nixpkgs";
     # Pinned: upstream is beta and pins a vendorHash, so an update that changes
     # go.mod without bumping it fails to build. Re-pin the previous rev then.
-    iris = {
-      type = "git";
-      url = "https://github.com/versenilvis/IRIS";
-      rev = "96597b495b2aba305b0687e9460b06fab0a44208";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    iris.url = "github:versenilvis/IRIS/96597b495b2aba305b0687e9460b06fab0a44208";
+    iris.inputs.nixpkgs.follows = "nixpkgs";
     penguin-mail.url = "github:c9dev/penguin-mail/8e0850a6e1c6f367e71933c8bf5a941bcf199ce0";
     penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
     # Separate repo, gitignored here. A commit there reaches a rebuild only
@@ -152,7 +142,7 @@
       # The derivations written in this repo that are worth building alone:
       # `nix build .#grub-theme`.
       packages.${system} = {
-        inherit (pkgs) avatar danvim penguin-mail;
+        inherit (pkgs) avatar danvim;
         grub-theme = pkgs.callPackage ./pkgs/grub-theme/package.nix { };
         start-page =
           (pkgs.callPackage ./home/firefox/firefox-start-page-wanderer/package.nix { inherit theme; }).page;
