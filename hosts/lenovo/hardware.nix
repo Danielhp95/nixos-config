@@ -6,6 +6,7 @@
   pkgs,
   modulesPath,
   inputs,
+  host,
   ...
 }:
 
@@ -51,6 +52,13 @@ in
     initrd = {
       systemd.enable = true;
       verbose = false;
+      # i915 loads here for the LUKS prompt and waits for the GSC proxy; out of
+      # the initrd it only arrives after unlock, and a slow passphrase logs
+      # "GSC proxy component didn't bind". mei_me is the CSME device it sits on.
+      kernelModules = [
+        "mei_me"
+        "mei_gsc_proxy"
+      ];
       availableKernelModules = [
         "xhci_pci"
         "thunderbolt"
@@ -142,6 +150,19 @@ in
       }
     ];
   };
+
+  # Fingerprint unlock after a resume. noctalia claims the reader ~0.4 s after
+  # waking, and polkit refuses fprintd's Claim then (the session is not yet
+  # active again; pkcheck passes a moment later), so every post-suspend unlock
+  # fell back to the password. Claim needs verify or enroll; grant verify to
+  # the one user outright. It still needs the finger.
+  security.polkit.extraConfig = ''
+    polkit.addRule(function (action, subject) {
+      if (action.id == "net.reactivated.fprint.device.verify" && subject.user == "${host.user}") {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 
   security.pam.services = {
     # A fingerprint login can't unlock gnome-keyring, and pam_fprintd would

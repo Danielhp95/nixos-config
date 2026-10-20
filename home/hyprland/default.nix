@@ -178,6 +178,7 @@ in
     presentScript
 
     slurp # the palette-coloured wrapper from the let block
+    grim # xdg-desktop-portal-hyprland's screenshots look for it on PATH
 
     wlrctl # clicks in hyprland.lua's mouse-cursor submap
   ];

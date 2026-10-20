@@ -58,6 +58,12 @@
     RestartSec = "5s";
   };
 
+  # network-online.target means nothing under connman (no wait-online unit), so
+  # the pull ran before Wi-Fi and failed 3-8 times a boot on DNS. Only this
+  # unit waits; boot does not. Returns at connman's "ready" (online check off).
+  systemd.services.ollama-model-loader.serviceConfig.ExecStartPre =
+    "-${config.services.connman.package}/bin/connmand-wait-online --timeout=120";
+
   # iris-qwen3-4b: the IRIS model with num_ctx 4096 baked in; ollama's OpenAI
   # endpoint (all IRIS speaks) ignores num_ctx, so the plain tag loads at 128k
   # tokens (~13 GiB). Created via the API each boot (idempotent, retries until
