@@ -95,10 +95,7 @@ in
       # Off, as last chosen in the control center.
       nightlight.enabled = false;
 
-      weather = {
-        enabled = true;
-        unit = "celsius";
-      };
+      weather.unit = "celsius";
 
       # The system's only idle handling (no hypridle). lock-and-suspend stays off:
       # idling must not take down local dashboards or ssh sessions. A suspend
@@ -122,10 +119,7 @@ in
         };
       };
 
-      lockscreen = {
-        enabled = true;
-        lock_before_suspend = true;
-      };
+      lockscreen.lock_before_suspend = true;
 
       control_center.shortcuts = [
         { type = "wifi"; }
@@ -136,13 +130,7 @@ in
         { type = "noctalia/screen_recorder:toggle"; }
       ];
 
-      wallpaper = {
-        enabled = true;
-        directory = "~/nix_config/wallpapers"; # the live checkout, in the ~ form noctalia keeps
-        fill_mode = "crop";
-      };
-
-      notification.enable_daemon = true;
+      wallpaper.directory = "~/nix_config/wallpapers"; # the live checkout, in the ~ form noctalia keeps
 
       # No sound on notifications; the volume, screenshot and charger sounds
       # stay (audio.enable_sounds is the master switch over all four).
@@ -151,8 +139,6 @@ in
       # The built-in panel has a sysfs backlight; pin that backend so noctalia
       # never falls back to ddc/none.
       brightness.monitor.${host.panel.output}.backend = "backlight";
-
-      dock.enabled = false;
     };
   };
 }

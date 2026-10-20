@@ -197,7 +197,6 @@ in
 {
   xdg = {
     enable = true;
-    mime.enable = true;
 
     # $EDITOR in a window of its own, in place of the entry the editor's
     # package ships (same file name, and Home Manager's wins). That one says

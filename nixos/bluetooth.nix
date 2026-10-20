@@ -1,7 +1,6 @@
 {
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;
     settings = {
       General = {
         # No `Enable = "Source,Sink,..."`: A2DP is on by default and BlueZ

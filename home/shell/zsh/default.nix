@@ -93,10 +93,6 @@ let
   };
 in
 {
-  # nix-env/nix-build/nix-shell completions; NixOS's copy is off because
-  # nixos/default.nix disables its programs.zsh.enableCompletion
-  home.packages = [ pkgs.nix-zsh-completions ];
-
   # The syntax-highlighting styles again, as a file a running shell can
   # re-read (see the precmd hook in initContent), and with them the
   # file-listing colours (../../terminal/ls-colors.nix) and the completion
@@ -187,7 +183,6 @@ in
         "completion"
       ];
     };
-    enableCompletion = true;
     # HM sources it at order 1200, after every widget is defined, as it needs
     syntaxHighlighting = {
       enable = true;
@@ -219,11 +214,9 @@ in
       }
     '';
     history = {
-      ignoreDups = true;
       extended = true;
       save = 1000000;
       size = 1000000;
-      share = true;
     };
     shellAliases = {
       ls = "eza -lahF --git";

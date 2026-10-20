@@ -157,11 +157,9 @@ in
     # (PropagatesStopTo), so session daemons need WantedBy=graphical-session.target
     # to come back; a PartOf= unit started by hand stays down.
     systemd = {
-      enable = true;
       variables = [ "--all" ];
       enableXdgAutostart = true;
     };
-    xwayland.enable = true;
   };
 
   # Polkit auth prompts; the module's unit is WantedBy=graphical-session.target.

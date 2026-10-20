@@ -6,10 +6,7 @@
 
   # command-not-found hints, from the prebuilt nix-index-database index
   # (imported above) rather than a hand-run `nix-index`
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  programs.nix-index.enable = true;
   # `, <cmd>` runs any nixpkgs program without installing it (pkgs.comma on
   # its own would collide with this wrapped one)
   programs.nix-index-database.comma.enable = true;

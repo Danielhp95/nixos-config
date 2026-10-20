@@ -34,12 +34,10 @@
   # Never set TERM globally: inside tmux it must stay tmux-256color, and a forced
   # "kitty" makes nvim send kitty sequences through tmux and corrupt rendering.
   programs = {
-    # Per-project shells. nix-direnv GC-roots the evaluated shell in .direnv/,
-    # so `use flake` is instant on re-entry and survives `nh clean`.
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
+    # Per-project shells. nix-direnv (on by default) GC-roots the evaluated
+    # shell in .direnv/, so `use flake` is instant on re-entry and survives
+    # `nh clean`.
+    direnv.enable = true;
     # tldr client (binary `tldr`); auto-updates keep the page cache fresh.
     tealdeer = {
       enable = true;

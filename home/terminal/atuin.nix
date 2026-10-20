@@ -20,7 +20,6 @@ in
   programs.atuin = {
     enable = true;
     flags = [ "--disable-up-arrow" ];
-    enableZshIntegration = true;
     # Socket-activated user service on $XDG_RUNTIME_DIR/atuin.sock. Not
     # settings.daemon.autostart: its $TMPDIR socket let a sandboxed shell with
     # a private /tmp start a second daemon, which stalled every command.

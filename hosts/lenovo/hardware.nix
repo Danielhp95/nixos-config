@@ -134,6 +134,10 @@ in
     # pam_fprintd for every PAM service; greetd and login opt out below.
     fprintd.enable = true;
 
+    # BIOS, EC, Thunderbolt, NVMe and fingerprint-reader firmware from LVFS:
+    # `fwupdmgr refresh && fwupdmgr get-updates`.
+    fwupd.enable = true;
+
     # Keep HDMI/DP audio out of device pickers: the dGPU's HDA card (01:00.1)
     # whole, then the SOF card's HDMI sinks. Drop a rule for monitor audio.
     pipewire.wireplumber.extraConfig."51-hide-hdmi-sinks"."monitor.alsa.rules" = [
@@ -177,10 +181,6 @@ in
       enable = true;
       # iHD, compute-runtime and vpl-gpu-rt come from the meteor-lake import;
       # hyprland.lua forces LIBVA_DRIVER_NAME=iHD, so VA-API depends on it.
-      extraPackages = [
-        pkgs.libva-vdpau-driver
-        pkgs.libvdpau-va-gl
-      ];
       enable32Bit = true;
     };
     nvidia = {

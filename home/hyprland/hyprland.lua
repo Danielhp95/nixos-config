@@ -80,12 +80,9 @@ hl.config({
 		follow_mouse = 1,
 		kb_layout = host.keyboard.layout,
 		kb_options = host.keyboard.options,
-		sensitivity = 0, -- -1.0 - 1.0, 0 means no modification
 		touchpad = {
 			clickfinger_behavior = true, -- 2 finger right click
 			drag_lock = true, -- can lift finger briefly while dragging
-			natural_scroll = false,
-			disable_while_typing = true,
 			scroll_factor = 0.8,
 		},
 	},
@@ -100,22 +97,17 @@ hl.config({
 	decoration = {
 		active_opacity = 0.90,
 		inactive_opacity = 0.8,
-		fullscreen_opacity = 1.0,
 		rounding = 5,
 		blur = {
-			enabled = true,
 			-- Costly on the iGPU (blur sits behind almost every window), but
 			-- lighter settings were rejected on looks.
 			size = 12,
 			passes = 3,
-			ignore_opacity = true,
 		},
 		-- Floating windows only (the no-shadow-tiled rule below): a soft drop
 		-- in the palette's darkest surface instead of the default neutral grey.
 		shadow = {
-			enabled = true,
 			range = 24,
-			render_power = 3,
 			color = alpha(palette.bgDeep, "cc"),
 			offset = { 0, 6 },
 		},
@@ -127,10 +119,6 @@ hl.config({
 		-- its own UI (Steam: Settings > Interface; Zoom: ../zoom.nix), and its
 		-- cursor is half size.
 		force_zero_scaling = true,
-	},
-
-	animations = {
-		enabled = true,
 	},
 
 	binds = {

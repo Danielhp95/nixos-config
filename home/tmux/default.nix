@@ -180,8 +180,6 @@ in
     aggressiveResize = true;
     # The default scrollback is 2000 lines
     historyLimit = 50000;
-    # Small nonzero value: 0 makes tmux misread a lone Esc in escape sequences over ssh
-    escapeTime = 10;
     # tmux's own terminfo inside; truecolor/extkeys come from terminal-features
     # in tmux.conf
     terminal = "tmux-256color";

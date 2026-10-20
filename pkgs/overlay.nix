@@ -47,13 +47,6 @@ in
   hyprland-preview-share-picker = final.callPackage ../home/hyprland/share-picker/package.nix {
     picker = inputs.hyprland-preview-share-picker.packages.${system}.default;
   };
-  # Without mbrola: its voices are ~645 MB and nothing here uses them.
-  espeak-ng = prev.espeak-ng.override { mbrolaSupport = false; };
-  # The release branch, for packages pinned to it (pkgs.stable.<name>).
-  stable = import inputs.stable {
-    inherit (final.stdenv.hostPlatform) system;
-    config.allowUnfree = true;
-  };
   # nixos-unstable at a date or commit: (pkgs.multiverse.at "2026-10-02").<name>.
   multiverse = inputs.multiverse.lib.mkMultiverse {
     inherit (final.stdenv.hostPlatform) system;
