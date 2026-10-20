@@ -10,8 +10,7 @@
 }:
 
 let
-  # The one account. greeter.nix reads it back from home-manager.users.
-  user = "dani";
+  inherit (host) user;
 in
 {
   imports = [

@@ -1,7 +1,6 @@
 # Noctalia Greeter as the display manager (greetd). Settings reference:
 # https://docs.noctalia.dev/greeter/configuration/
 {
-  config,
   lib,
   pkgs,
   theme,
@@ -9,8 +8,7 @@
   ...
 }:
 let
-  # The one Home Manager user (set in ./default.nix).
-  user = builtins.head (builtins.attrNames config.home-manager.users);
+  inherit (host) user;
   p = theme;
   material = import ../home/noctalia/material.nix { inherit lib; };
 

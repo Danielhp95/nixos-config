@@ -4,6 +4,7 @@
   lib,
   inputs,
   theme,
+  host,
   ...
 }:
 let
@@ -45,8 +46,7 @@ let
 
   # The live repo file, not a store copy, so it can't drift from the one
   # danvim's lsp.lua reads (the same path is written there).
-  flakeDir = "${config.home.homeDirectory}/nix_config";
-  noctaliaLuauDefs = "${flakeDir}/home/noctalia/noctalia.d.luau";
+  noctaliaLuauDefs = "${host.checkout}/home/noctalia/noctalia.d.luau";
 
   # Skill directories from the flake inputs; the module symlinks each whole.
   superpower = name: "${inputs.superpowers}/skills/${name}";

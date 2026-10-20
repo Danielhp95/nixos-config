@@ -1,10 +1,10 @@
 # Which plugins run, their settings, and what they need on PATH.
-{ config, pkgs, ... }:
-let
-  # The live checkout: the dart plugin is linked out of it, so the link
-  # follows a move of the repo or of this directory.
-  flakeDir = "${config.home.homeDirectory}/nix_config";
-in
+{
+  config,
+  pkgs,
+  host,
+  ...
+}:
 {
   home.packages = [
     # logcli, for `dart logs` (the dart plugin's Logs button).
@@ -13,10 +13,10 @@ in
     pkgs.xdg-user-dirs
   ];
 
-  # The local DART plugin, linked out of the store so edits to ./dart-plugin
-  # hot-reload in the running shell without a rebuild.
+  # The local DART plugin, linked out of the live checkout so edits to
+  # ./dart-plugin hot-reload in the running shell without a rebuild.
   xdg.dataFile."noctalia/plugins/dart".source =
-    config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/noctalia/dart-plugin";
+    config.lib.file.mkOutOfStoreSymlink "${host.checkout}/home/noctalia/dart-plugin";
 
   programs.noctalia.settings = {
     # No git fetch of the plugin sources at every login (it stalled offline);

@@ -3,14 +3,9 @@
   config,
   inputs,
   lib,
+  host,
   ...
 }:
-let
-  # This checkout, which `nh` rebuilds from: in the home of the one Home
-  # Manager user (set in ./default.nix).
-  user = builtins.head (builtins.attrNames config.home-manager.users);
-  flakeDir = "${config.users.users.${user}.home}/nix_config";
-in
 {
   nix = {
     settings = {
@@ -48,7 +43,7 @@ in
 
   programs.nh = {
     enable = true;
-    flake = flakeDir;
+    flake = host.checkout;
     clean = {
       enable = true;
       # Not `--delete-old`: after a rebuild that silently missed the ESP it

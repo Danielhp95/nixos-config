@@ -1,7 +1,15 @@
 # Facts about this machine that more than one module needs, as plain data.
 # Every module gets them as `host` (flake.nix), NixOS and Home Manager alike;
 # hyprland.lua gets them as its `host` local (home/hyprland/default.nix).
+let
+  user = "dani";
+in
 {
+  # The one account (nixos/default.nix), and this checkout in its home: nh
+  # rebuilds from it, and some files are linked out of the live tree.
+  inherit user;
+  checkout = "/home/${user}/nix_config";
+
   # The built-in panel: 3840x2400 at scale 2.
   panel = {
     output = "eDP-1";

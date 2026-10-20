@@ -238,6 +238,18 @@ in
         // handledBy "org.pwmt.zathura-cb.desktop" comicTypes
         // handledBy "visidata.desktop" sheetTypes
         // handledBy "org.gnome.FileRoller.desktop" archiveTypes
+        // handledBy "firefox.desktop" [
+          "x-scheme-handler/http"
+          "x-scheme-handler/https"
+          "x-scheme-handler/chrome"
+          "text/html"
+          "application/x-extension-htm"
+          "application/x-extension-html"
+          "application/x-extension-shtml"
+          "application/xhtml+xml"
+          "application/x-extension-xhtml"
+          "application/x-extension-xht"
+        ]
         # inode/directory is yazi's: ./yazi/file-manager.nix.
         // {
           "application/pdf" = [ "org.pwmt.zathura.desktop" ];
@@ -245,16 +257,6 @@ in
           # GNOME Calendar claims it too
           "text/calendar" = [ "io.github.c9dev.PenguinMail.desktop" ];
           "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
-          "x-scheme-handler/http" = [ "firefox.desktop" ];
-          "x-scheme-handler/https" = [ "firefox.desktop" ];
-          "x-scheme-handler/chrome" = [ "firefox.desktop" ];
-          "text/html" = [ "firefox.desktop" ];
-          "application/x-extension-htm" = [ "firefox.desktop" ];
-          "application/x-extension-html" = [ "firefox.desktop" ];
-          "application/x-extension-shtml" = [ "firefox.desktop" ];
-          "application/xhtml+xml" = [ "firefox.desktop" ];
-          "application/x-extension-xhtml" = [ "firefox.desktop" ];
-          "application/x-extension-xht" = [ "firefox.desktop" ];
           "x-scheme-handler/tonsite" = [ "org.telegram.desktop.desktop" ];
         };
     };
