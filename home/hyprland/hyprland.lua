@@ -172,9 +172,11 @@ hl.animation({
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Environment variables (GPU selection)
--- The iGPU renders; the NVIDIA card is also opened when present, to scan out
--- the outputs wired to it (HDMI, some USB-C/DP, the desk dock). That keeps the
--- dGPU awake (~8W); the Roadwarrior boot entry takes it off the bus.
+-- The iGPU renders. The NVIDIA card scans out the outputs wired to it (HDMI
+-- and the TB5 ports: card0's DP-5, DP-6, HDMI-A-1), but once opened it never
+-- runtime-suspends (~7.5 W of a ~22 W idle floor). So it is opened only when
+-- one of those is connected at login; a monitor plugged into them later stays
+-- dark until the next login. The Roadwarrior boot entry takes it off the bus.
 -- ─────────────────────────────────────────────────────────────────────────────
 -- AQ_DRM_DEVICES is colon-separated and by-path names contain colons, so they
 -- are resolved to /dev/dri/cardN (numbering varies per boot); missing is nil.
@@ -190,10 +192,27 @@ local drm_devices = {}
 if intel_card then
 	drm_devices[#drm_devices + 1] = intel_card
 end
-if nvidia_card then
+local function nvidia_output_connected()
+	local p = io.popen("cat /sys/bus/pci/devices/0000:01:00.0/drm/card*/card*-*/status 2>/dev/null")
+	local status = p:read("*a")
+	p:close()
+	for line in status:gmatch("[^\n]+") do
+		if line == "connected" then
+			return true
+		end
+	end
+	return false
+end
+if nvidia_card and nvidia_output_connected() then
 	drm_devices[#drm_devices + 1] = nvidia_card
 	-- Hardware cursors glitch on NVIDIA scanout.
 	hl.config({ cursor = { no_hardware_cursors = true } })
+else
+	-- glvnd lists NVIDIA's EGL first, and loading it opens the card: every EGL
+	-- client (Firefox, Xwayland) would keep it awake. The session environment
+	-- reaches systemd units too (variables = --all). An EGL app run with
+	-- nvidia-offload needs 10_nvidia.json added back.
+	hl.env("__EGL_VENDOR_LIBRARY_FILENAMES", "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json")
 end
 if #drm_devices > 0 then
 	hl.env("AQ_DRM_DEVICES", table.concat(drm_devices, ":"))

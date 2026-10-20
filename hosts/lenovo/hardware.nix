@@ -38,7 +38,6 @@ in
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "kvm-intel" ];
 
     # spd5118 (DDR5 DIMM temperature sensors) fails every s2idle resume with
     # -ENXIO; blacklisting costs only the DIMM temperature readout.
@@ -76,7 +75,6 @@ in
     };
 
     loader = {
-      timeout = 5;
       efi = {
         canTouchEfiVariables = false; # nixpkgs asserts this off for removable
         efiSysMountPoint = "/boot";
@@ -89,7 +87,6 @@ in
         # Pinned rather than auto-detected: esp-check verifies the
         # /boot/kernels/<store-name> copies.
         copyKernels = true;
-        useOSProber = false;
         # 1 GB ESP: a generation with its own kernel costs ~116 MB (kernel +
         # two initrds), so 6 stays under esp-check's 80% warning. nh.clean's
         # `--keep` is derived from this (nixos/nix.nix).

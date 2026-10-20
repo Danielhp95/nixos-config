@@ -85,8 +85,6 @@ in
           members = [
             "sysmon"
             "ram"
-            "gpu"
-            "vram"
             "battery"
           ];
           fill = "surface_variant";
@@ -131,20 +129,9 @@ in
         stat = "ram_pct";
       };
 
-      # dGPU load and VRAM over NVML (the iGPU exposes neither); VRAM idles
-      # at ~2%, the driver's reserve. Polling costs no D3 sleep: Hyprland
-      # holds /dev/nvidia0 open anyway. Own glyphs: the default vram icon is
-      # ram's.
-      gpu = {
-        type = "sysmon";
-        stat = "gpu_usage";
-        glyph = "cube";
-      };
-      vram = {
-        type = "sysmon";
-        stat = "gpu_vram";
-        glyph = "stack-2";
-      };
+      # No dGPU load/VRAM widgets: an NVML session is a live handle on the
+      # card and keeps it out of D3cold (hyprland.lua's GPU selection), and
+      # noctalia drops that session only when nothing displays GPU stats.
 
       bluetooth = {
         show_label = true;

@@ -1,14 +1,20 @@
 # Power on a laptop: TLP's policy on AC and on battery, and what UPower does
 # when the battery runs out.
 _: {
-  # TLP instead of power-profiles-daemon (they conflict).
+  # TLP instead of power-profiles-daemon (they conflict, and tlp.pd asserts it off).
   services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
+    # power-profiles-daemon's D-Bus API on top of TLP, so a profile switcher
+    # (or `tlpctl performance`) picks performance for a heavy build or a long
+    # ollama run without a rebuild.
+    pd.enable = true;
     settings = {
-      # Plugged in: full performance
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-      PLATFORM_PROFILE_ON_AC = "performance";
+      # Plugged in: balanced, with full turbo. "performance" set PL1 = PL2 =
+      # 160 W: minutes of thermal throttling a day, and with the GPU's 95-110 W
+      # more than the 180 W adapter delivers (2026-10-05 drained while charging).
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+      PLATFORM_PROFILE_ON_AC = "balanced";
       CPU_BOOST_ON_AC = 1;
 
       # On battery: low power
@@ -26,13 +32,22 @@ _: {
       # battery ran flat. The "+" makes the line `...DENYLIST+=igc`, which TLP
       # appends to its default list instead of replacing it.
       "RUNTIME_PM_DRIVER_DENYLIST+" = "igc";
+      # The dGPU's HDMI audio function. NVIDIA's driver is on TLP's default
+      # denylist, but its audio sibling is snd_hda_intel, which TLP pins "on"
+      # on AC; the card reaches D3cold only when every function is idle.
+      RUNTIME_PM_ENABLE = "01:00.1";
       USB_AUTOSUSPEND = 1;
+
+      # Battery care: stop at 85%, resume charging below 80%. TLP owns the
+      # thresholds (UPower's own charge limit stays off). Before a trip,
+      # `tlp fullcharge` charges to 100% once.
+      START_CHARGE_THRESH_BAT0 = 80;
+      STOP_CHARGE_THRESH_BAT0 = 85;
     };
   };
 
   services.upower = {
     enable = true;
-    percentageLow = 20;
     percentageCritical = 10;
     # Power off before the cliff: 2% is under a minute at a 150 W load, less
     # than UPower's polling plus a PowerOff can win (2026-10-05 ended in a hard
