@@ -159,7 +159,7 @@ in
         min_interval_ms = 5000;
       };
 
-      # A small model, not the qwen3-coder:30b ollama.nix also loads: the budget
+      # A small model, not the qwen3.8:27b ollama.nix also loads: the budget
       # is time-to-first-token mid-typing. aiModel bakes num_ctx 4096 into
       # qwen3:4b-instruct-2507 (see ollama.nix), since this endpoint ignores
       # num_ctx and keep_alive in the request. Keep `-instruct-`: thinking

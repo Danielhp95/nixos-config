@@ -25,9 +25,10 @@ let
     exec ${lib.getExe pkgs.vpnc-scripts} "$@"
   '';
 
-  # The GlobalProtect command line the connect scripts below share.
+  # The GlobalProtect command line the bash scripts below share. With $BROWSER
+  # unset (outside the Home Manager session), gpclient's own `default` browser.
   gpclientCmd = "sudo -E ${lib.getExe' pkgs.gpclient "gpclient"}";
-  connectCmd = "${gpclientCmd} connect --gateway gw15.ggp-ext-gw.sie.sony.com --browser $BROWSER";
+  connectCmd = "${gpclientCmd} connect --gateway gw15.ggp-ext-gw.sie.sony.com --browser \"\${BROWSER:-default}\"";
   portal = "portal.global-vpn.sie.sony.com --hip";
 in
 {

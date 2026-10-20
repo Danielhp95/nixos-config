@@ -5,6 +5,7 @@ let
 
   # Stormlight wording for noctalia's battery warnings (low at the threshold
   # and 5%, critical at 2%). `battery` is also the laptop's {device} label.
+  # Titles get no placeholders: noctalia fills {device} and {percent} in bodies only.
   stormlightStrings = pkgs.writeText "stormlight-strings.json" (
     builtins.toJSON {
       battery = "Stormlight";

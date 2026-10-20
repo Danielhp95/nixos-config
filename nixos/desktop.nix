@@ -50,23 +50,21 @@
   services.gvfs.enable = true; # yazi/nautilus: MTP, network shares (see home/yazi/default.nix)
   services.udisks2.enable = true; # yazi mount menu
   services.gnome.gnome-keyring.enable = true; # Secret Service; unlocked at login by greetd's PAM stack
+  # gpg-agent is the SSH agent (home/gpg.nix); a second one races it for SSH_AUTH_SOCK.
+  services.gnome.gcr-ssh-agent.enable = false;
   services.gnome.glib-networking.enable = true; # TLS for libsoup (GNOME apps such as gnome-weather)
   services.gnome.evolution-data-server.enable = true; # the calendar store gnome-calendar reads (home/apps.nix)
+  # Calendar reminders. systemd.packages ignores the unit's [Install], and its
+  # autostart entry is X-systemd-skip, so nothing would start it.
+  systemd.user.services.evolution-alarm-notify.wantedBy = [ "graphical-session.target" ];
   services.gnome.gnome-online-accounts.enable = true; # its Google and Nextcloud sign-in
   services.geoclue2.enable = true; # maps/weather location; demo agent replaces gnome-shell's
   services.gnome.at-spi2-core.enable = true; # a11y bus; silences GTK warnings
 
+  # Not for an X session (the greeter starts the Wayland one, nixos/greeter.nix):
+  # enable gates the NVIDIA kernel modules loading at boot.
   services.xserver = {
     enable = true;
     excludePackages = [ pkgs.xterm ];
-
-    desktopManager.runXdgAutostartIfNone = true;
-    desktopManager.session = [
-      {
-        manage = "window";
-        name = "Hyprland";
-        start = "Hyprland";
-      }
-    ];
   };
 }

@@ -1,5 +1,5 @@
 # Desktop applications that need no configuration of their own here.
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   # The dated nixpkgs Grayjay is taken from (its entry below).
   grayjayPkgs = pkgs.multiverse.at "2026-10-02";

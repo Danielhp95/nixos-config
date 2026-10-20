@@ -4,8 +4,9 @@
   # yazi as the file dialog of every app that asks the desktop portal for one
   # (the system side is xdg.portal in nixos/desktop.nix). The portal backend
   # runs file-chooser.nu, which opens yazi in a floating kitty: Enter on a file
-  # picks it, q cancels. For a save, the suggested file is created as a
-  # placeholder and hovered; move or rename it to save elsewhere, after which
+  # picks it, q cancels. Choosing a folder, q inside it picks it (q writes
+  # yazi's cwd file) and Q cancels. For a save, the suggested file is created
+  # as a placeholder and hovered; move or rename it to save elsewhere, after which
   # Enter and q both save. Enter on any other file asks before the app
   # overwrites it.
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''

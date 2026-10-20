@@ -21,9 +21,11 @@ in
     # With no import HM drops gtk-theme-name from gtk-4.0/settings.ini; plain GTK4
     # apps (Chromium's frame) still need the name to find <theme>/gtk-4.0/gtk.css.
     gtk4.extraConfig = lib.mkIf (!m.gtk.gtk4Import) { gtk-theme-name = m.gtk.name; };
-    # GTK3 prefer-dark plus the dconf color-scheme that GTK4/libadwaita follow.
+    # GTK3 prefer-dark only. Not gtk3.colorScheme: it also writes the dconf
+    # color-scheme key on every switch, undoing noctalia's light mode (its
+    # theme_mode_changed hook owns that key, home/noctalia/default.nix).
     # Not on gtk4: libadwaita rejects its settings.ini key.
-    gtk3.colorScheme = "dark";
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
     theme = {
       package = m.gtk.package pkgs;
       name = m.gtk.name;

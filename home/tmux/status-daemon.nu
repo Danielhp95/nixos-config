@@ -37,6 +37,8 @@ def tmux-out [args: list<string>] {
 # below is the only thing that calls continuum_save.sh.
 
 # One feeder per server: a reload re-runs this script, and that copy exits.
+# A switch runs a new build instead, with other store paths in its argv: that
+# copy replaces the old feeder, which would keep calling paths a GC can delete.
 # /proc, not `kill -0`, so the check forks nothing; the cmdline test keeps a
 # recycled pid from passing for a live feeder.
 def feeder-running [] {
@@ -44,7 +46,11 @@ def feeder-running [] {
   if ($pid | is-empty) { return false }
   let cmdline = $"/proc/($pid)/cmdline"
   if not ($cmdline | path exists) { return false }
-  (open --raw $cmdline | str contains "tmux-status-daemon")
+  let theirs = (open --raw $cmdline)
+  if not ($theirs | str contains "tmux-status-daemon") { return false }
+  if $theirs == (open --raw $"/proc/($nu.pid)/cmdline") { return true }
+  try { kill ($pid | into int) }
+  false
 }
 
 # First line of a file, or "" if it is empty or unreadable: a null here would

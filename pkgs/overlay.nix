@@ -20,7 +20,7 @@ in
   # pdftotext is what the assistant reads a PDF attachment with, and DICPATH
   # is where the composer looks first for a spelling dictionary.
   penguin-mail = inputs.penguin-mail.packages.${system}.penguin-mail.overrideAttrs (old: {
-    preFixup = old.preFixup + ''
+    preFixup = (old.preFixup or "") + ''
       gappsWrapperArgs+=(
         --suffix PATH : ${final.lib.makeBinPath [ final.poppler-utils ]}
         --suffix DICPATH : ${final.hunspellDicts.en_US}/share/hunspell

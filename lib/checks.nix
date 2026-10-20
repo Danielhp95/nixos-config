@@ -27,6 +27,7 @@ let
     inherit theme;
   };
   userChrome = lib.concatMapStrings (p: p.userChrome) (lib.attrValues hm.programs.firefox.profiles);
+  userContent = lib.concatMapStrings (p: p.userContent) (lib.attrValues hm.programs.firefox.profiles);
   lua = withoutLuaComments (builtins.readFile ../home/hyprland/hyprland.lua);
   luaVars = hm.wayland.windowManager.hyprland.settings;
   # The locals hyprland.lua is handed (home/hyprland/default.nix).
@@ -55,6 +56,11 @@ let
       file = "home/firefox/userChrome.css";
       used = matches cssUse userChrome;
       known = among (matches cssDef userChrome);
+    }
+    {
+      file = "home/firefox/userContent.css";
+      used = matches cssUse userContent;
+      known = among (matches cssDef userContent);
     }
     {
       file = "the start page's style.css, app.js and index.html";
