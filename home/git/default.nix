@@ -23,6 +23,15 @@ _: {
     # ~/.config/git/ignore, git's default global excludes file
     ignores = [ "**/.claude/settings.local.json" ];
 
+    # This repository is public: its commits carry the personal address, not
+    # the work one below. The trailing slash matches everything under it.
+    includes = [
+      {
+        condition = "gitdir:~/nix_config/";
+        contents.user.email = "danielhp95@gmail.com";
+      }
+    ];
+
     settings = {
       user.name = "Daniel Hernandez";
       user.email = "daniel.hernandez2@sony.com";

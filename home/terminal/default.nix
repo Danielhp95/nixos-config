@@ -12,7 +12,6 @@
     ./iris.nix
     ./cli.nix
     ./btop.nix
-    ./bottom.nix
     ./atuin.nix
     ./fzf.nix
     ./bat.nix

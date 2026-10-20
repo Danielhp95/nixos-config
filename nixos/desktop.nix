@@ -60,6 +60,9 @@
   services.gnome.gnome-online-accounts.enable = true; # its Google and Nextcloud sign-in
   services.geoclue2.enable = true; # maps/weather location; demo agent replaces gnome-shell's
   services.gnome.at-spi2-core.enable = true; # a11y bus; silences GTK warnings
+  # Text-to-speech is unused, and speech-dispatcher pulls espeak-ng with its
+  # ~645 MB of mbrola voices (graphical-desktop.nix turns it on by default).
+  services.speechd.enable = false;
 
   # Not for an X session (the greeter starts the Wayland one, nixos/greeter.nix):
   # enable gates the NVIDIA kernel modules loading at boot.

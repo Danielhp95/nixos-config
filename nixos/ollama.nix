@@ -7,7 +7,9 @@
 {
   services.ollama = {
     enable = true;
-    host = "0.0.0.0";
+    # Local clients only (danvim, IRIS, the start page): the API has no
+    # authentication, and 0.0.0.0 exposed it to every tailnet device.
+    host = "127.0.0.1";
     package = pkgs.ollama-cuda;
     environmentVariables = {
       # A q8_0 KV cache is half of f16's; it needs flash attention. (q8_0 is
