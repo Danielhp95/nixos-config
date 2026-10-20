@@ -1,6 +1,6 @@
-# The colours every module imports (`import ./palette`). Which palette they get
-# is the one line below; the palettes live beside this file, one each, and
-# ./lib.nix documents the shape returned here.
+# The selected palette: theme.nix imports it, and modules get it from there as
+# `theme`. Which palette is the one line below; the palettes live beside this
+# file, one each, and ./lib.nix documents the shape returned here.
 #
 # Attributes are bare hex; `hash` is the same set with '#', `ansi` the
 # terminal palette (`term` by name), `light` the light-mode set under the same
