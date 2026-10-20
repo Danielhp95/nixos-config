@@ -72,19 +72,15 @@
     },
     "danvim": {
       "inputs": {
-        "flake-compat": "flake-compat",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixCats": "nixCats",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "stable": [
-          "stable"
         ]
       },
       "locked": {
-        "lastModified": 1791992508,
-        "narHash": "sha256-mzCJD3GMUr9W728GU1QAL2pKP4rbTA7VyENZ7Legl8Q=",
+        "lastModified": 1792474390,
+        "narHash": "sha256-8tLCQy/ExpqAOl8bRcdH+r7Bg3g0rIXajJQYiUhoNc0=",
         "path": "/home/dani/nix_config/danvim",
         "type": "path"
       },
@@ -113,22 +109,6 @@
         "owner": "rycee",
         "repo": "nur-expressions",
         "type": "gitlab"
-      }
-    },
-    "flake-compat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1767039857,
-        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
       }
     },
     "flake-compat_2": {
