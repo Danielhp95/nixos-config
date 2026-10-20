@@ -18,7 +18,8 @@ What a rebuild cannot do. Each item names the module whose comments say why.
   AMO `install_url`.
 - **fcitx5** (`home/fcitx5/settings.nix`): `~/.config/fcitx5` is a read-only
   store link, so a change made in fcitx5-configtool has to be ported into that
-  file.
+  file. It holds only non-default keys: port the keys the change touched, not
+  the whole configtool dump.
 
 ## After a switch
 

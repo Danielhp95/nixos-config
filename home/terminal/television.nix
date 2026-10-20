@@ -195,43 +195,12 @@ in
       };
     };
 
-    # Written to $XDG_CONFIG_HOME/television/config.toml.
+    # Written to $XDG_CONFIG_HOME/television/config.toml. Only what differs
+    # from tv's defaults: tv takes missing app and `ui` keys from its built-in
+    # defaults and merges `keybindings` key by key with its config.toml, but
+    # replaces the whole channel_triggers table, so that one stays complete.
     settings = {
-      tick_rate = 50;
-      default_channel = "files";
-      history_size = 200;
-      global_history = false;
-
       ui = {
-        ui_scale = 100;
-        orientation = "landscape";
-        theme = "default";
-        input_bar = {
-          position = "top";
-          prompt = ">";
-          border_type = "rounded";
-        };
-        status_bar = {
-          separator_open = "";
-          separator_close = "";
-          hidden = false;
-        };
-        results_panel.border_type = "rounded";
-        preview_panel = {
-          size = 50;
-          scrollbar = true;
-          border_type = "rounded";
-          hidden = false;
-        };
-        help_panel = {
-          show_categories = true;
-          hidden = true;
-        };
-        remote_control = {
-          show_channel_descriptions = true;
-          sort_alphabetically = true;
-        };
-
         # Ember over tv's `default` theme. These are all the keys tv 0.15.9's
         # ThemeOverrides accepts; unknown names are silently ignored.
         theme_overrides = {
@@ -258,46 +227,14 @@ in
       };
 
       keybindings = {
-        esc = "quit";
-        "ctrl-c" = "quit";
-        down = "select_next_entry";
-        "ctrl-n" = "select_next_entry";
-        "ctrl-j" = "select_next_entry";
-        up = "select_prev_entry";
-        "ctrl-p" = "select_prev_entry";
-        "ctrl-k" = "select_prev_entry";
-        "ctrl-up" = "select_prev_history";
-        "ctrl-down" = "select_next_history";
         # The list keys of common.fzfListBinds: Tab marks the row and moves
-        # down, Shift-Tab only moves up (tv's default marks on the way up too).
-        tab = "toggle_selection_down";
+        # down (tv's default), Shift-Tab only moves up (tv's default marks on
+        # the way up too).
         backtab = "select_prev_entry";
         "ctrl-space" = "toggle_selection_down";
-        enter = "confirm_selection";
-        pagedown = "scroll_preview_half_page_down";
-        pageup = "scroll_preview_half_page_up";
-        "ctrl-y" = "copy_entry_to_clipboard";
-        "ctrl-r" = "reload_source";
-        "ctrl-s" = "cycle_sources";
-        "ctrl-t" = "toggle_remote_control";
-        "ctrl-o" = "toggle_preview";
-        "ctrl-h" = "toggle_help";
-        f12 = "toggle_status_bar";
-        "ctrl-l" = "toggle_layout";
-        backspace = "delete_prev_char";
-        "ctrl-w" = "delete_prev_word";
-        "ctrl-u" = "delete_line";
-        delete = "delete_next_char";
-        left = "go_to_prev_char";
-        right = "go_to_next_char";
-        home = "go_to_input_start";
-        "ctrl-a" = "go_to_input_start";
-        end = "go_to_input_end";
-        "ctrl-e" = "go_to_input_end";
       };
 
       shell_integration = {
-        fallback_channel = "files";
         channel_triggers = {
           env = [
             "export"
@@ -351,10 +288,6 @@ in
             "git show"
           ];
           "git-repos" = [ "git clone" ];
-        };
-        keybindings = {
-          smart_autocomplete = "ctrl-t";
-          command_history = "ctrl-r";
         };
       };
     };
