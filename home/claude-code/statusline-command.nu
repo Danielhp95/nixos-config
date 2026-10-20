@@ -106,6 +106,25 @@ def main [] {
     }
   }
 
+  # After the path pills, which end on accent either way: the model and effort
+  # pills, then wedges back down to ash.
+  def model_effort_tail [] {
+    mut out = ""
+    mut last_pill_color = $accent
+    if ($model_name | is-not-empty) {
+      $out = $out + (pill_wedge $last_pill_color $gold)
+      $out = $out + (pill_text $" ($model_name)" $bg $gold true)
+      $last_pill_color = $gold
+    }
+    if ($effort_level | is-not-empty) {
+      let effort_pill_color = (effort_color $effort_level)
+      $out = $out + (pill_wedge $last_pill_color $effort_pill_color)
+      $out = $out + (pill_text $" ($effort_level)" $bg $effort_pill_color true)
+      $last_pill_color = $effort_pill_color
+    }
+    $out + (pill_wedge $last_pill_color $accent_dim) + (pill_wedge $accent_dim $ash) + (pill_close $ash) + " "
+  }
+
   mut line = ""
 
   if ("SSH_CONNECTION" in $env) or ("SSH_TTY" in $env) {
@@ -131,40 +150,12 @@ def main [] {
     $line = $line + (pill_wedge $ash $accent_dim)
     $line = $line + (pill_text $" ($repo_name)" $bg $accent_dim true)
     $line = $line + (pill_wedge $accent_dim $accent)
-    mut last_pill_color = $accent
-    if ($model_name | is-not-empty) {
-      $line = $line + (pill_wedge $last_pill_color $gold)
-      $line = $line + (pill_text $" ($model_name)" $bg $gold true)
-      $last_pill_color = $gold
-    }
-    if ($effort_level | is-not-empty) {
-      let effort_pill_color = (effort_color $effort_level)
-      $line = $line + (pill_wedge $last_pill_color $effort_pill_color)
-      $line = $line + (pill_text $" ($effort_level)" $bg $effort_pill_color true)
-      $last_pill_color = $effort_pill_color
-    }
-    $line = $line + (pill_wedge $last_pill_color $accent_dim)
-    $line = $line + (pill_wedge $accent_dim $ash)
-    $line = $line + (pill_close $ash) + " "
+    $line = $line + (model_effort_tail)
   } else {
     let display_path = (truncate_path_segments (collapse_home_prefix $current_dir $env.HOME) 3)
     $line = $line + (pill_open $accent)
     $line = $line + (pill_text $" ($display_path)($read_only_marker)" $bg $accent true)
-    mut last_pill_color = $accent
-    if ($model_name | is-not-empty) {
-      $line = $line + (pill_wedge $last_pill_color $gold)
-      $line = $line + (pill_text $" ($model_name)" $bg $gold true)
-      $last_pill_color = $gold
-    }
-    if ($effort_level | is-not-empty) {
-      let effort_pill_color = (effort_color $effort_level)
-      $line = $line + (pill_wedge $last_pill_color $effort_pill_color)
-      $line = $line + (pill_text $" ($effort_level)" $bg $effort_pill_color true)
-      $last_pill_color = $effort_pill_color
-    }
-    $line = $line + (pill_wedge $last_pill_color $accent_dim)
-    $line = $line + (pill_wedge $accent_dim $ash)
-    $line = $line + (pill_close $ash) + " "
+    $line = $line + (model_effort_tail)
   }
 
   if ($git_root | is-not-empty) {
