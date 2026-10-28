@@ -46,11 +46,15 @@ in
     kernelParams = [
       "quiet"
       "mitigations=off"
+      # Physical offset of /var/lib/swapfile on the root fs, from
+      # `filefrag -v /var/lib/swapfile` (first extent). Stable while the file
+      # exists; re-read it if the swapfile is ever deleted or resized.
+      "resume_offset=21657600"
     ];
+    # Hibernation image goes to the swapfile, inside the LUKS root.
+    resumeDevice = luksDevice;
 
     initrd = {
-      systemd.enable = true;
-      verbose = false;
       # i915 loads here for the LUKS prompt and waits for the GSC proxy; out of
       # the initrd it only arrives after unlock, and a slow passphrase logs
       # "GSC proxy component didn't bind". mei_me is the CSME device it sits on.
@@ -122,13 +126,21 @@ in
     ];
   };
 
-  # 8.8 GB, behind zram in priority; too small for a hibernation image.
-  swapDevices = [ { device = swapLuksDevice; } ];
+  # Both behind zram in priority. The 8.8 GB partition is too small for a
+  # hibernation image, so a RAM-sized swapfile on the LUKS root holds it.
+  swapDevices = [
+    { device = swapLuksDevice; }
+    {
+      device = "/var/lib/swapfile";
+      size = 64 * 1024; # MiB
+    }
+  ];
 
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     logind.settings.Login.HandleLidSwitchDocked = "suspend";
     logind.settings.Login.HandleLidSwitch = "suspend";
+    # logind.settings.Login.HandleLidSwitch = "ignore";
 
     # Goodix 27c6:6594 in the power button (enrol: fprintd-enroll). Turns on
     # pam_fprintd for every PAM service; greetd and login opt out below.
@@ -184,8 +196,8 @@ in
       enable32Bit = true;
     };
     nvidia = {
-      # package = config.boot.kernelPackages.nvidiaPackages.latest;
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      # package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
       modesetting.enable = true;
       powerManagement = {
         enable = true;

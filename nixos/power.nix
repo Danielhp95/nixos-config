@@ -54,8 +54,8 @@ _: {
     # power loss). noctalia's fixed 5% warning fires as this does; its 2% one
     # (the "Life before death" text, home/noctalia/stormlight.nix) never shows.
     percentageAction = 5;
-    # Not Hibernate: the 8.8 GB swap partition can't hold a 64 GB RAM image,
-    # and no resume device is set.
+    # Not Hibernate yet: the swapfile resume (hosts/lenovo/hardware.nix) is
+    # untested. Switch this once `systemctl hibernate` round-trips cleanly.
     criticalPowerAction = "PowerOff";
   };
 }
