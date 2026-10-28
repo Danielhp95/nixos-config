@@ -60,6 +60,7 @@ let
   slugs = [
     "ember"
     "tokyo-night-violet"
+    "higanbana"
   ];
 
   # ── Schema ───────────────────────────────────────────────────────────────

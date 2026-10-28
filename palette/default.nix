@@ -8,3 +8,4 @@
 # palette by slug.
 (import ./lib.nix).select "ember"
 # (import ./lib.nix).select "tokyo-night-violet"
+# (import ./lib.nix).select "higanbana"
