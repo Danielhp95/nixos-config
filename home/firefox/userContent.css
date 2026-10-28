@@ -1,0 +1,29 @@
+/* Web content in the selected palette; ./default.nix prepends the `--theme-*`
+ * colours, on the PDF viewer's root and ./about-pages.css's pages only, so
+ * websites never see them. The viewer follows the OS scheme, so it gets the
+ * light half in light mode.
+ */
+
+/* ── PDF viewer's notification bar ───────────────────────────────────────────
+ * "PDFs just got easier in Firefox", above the document: Firefox's violet
+ * (icon and its column, link, button hovers) and white or grey surface,
+ * given palette colours. The bar's own tokens reach into its shadow DOM.
+ */
+#pdfFeaturesNotification {
+  --message-bar-background-color: var(--theme-bg-alt) !important;
+  --message-bar-text-color: var(--theme-fg) !important;
+  --message-bar-border-color: var(--theme-border) !important;
+  --message-bar-icon-color: var(--theme-accent) !important;
+  --message-bar-icon-background-color: color-mix(in srgb, var(--theme-accent) 14%, var(--theme-bg-alt)) !important;
+  /* The higher-contrast accent: plain accent is under 4.5:1 on Ember Light. */
+  --link-color: var(--theme-accent-bright) !important;
+  --link-color-hover: var(--theme-accent) !important;
+  --link-color-active: var(--theme-accent) !important;
+  --focus-outline-color: var(--theme-accent) !important;
+  /* The close button's hover and press. */
+  --button-background-color-ghost-hover: color-mix(in srgb, var(--theme-fg) 12%, transparent) !important;
+  --button-background-color-ghost-active: color-mix(in srgb, var(--theme-fg) 20%, transparent) !important;
+  --button-text-color-ghost: var(--theme-fg) !important;
+  --button-text-color-ghost-hover: var(--theme-fg) !important;
+  --button-text-color-ghost-active: var(--theme-fg) !important;
+}

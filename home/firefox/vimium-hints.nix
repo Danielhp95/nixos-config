@@ -3,7 +3,8 @@
 # the selected row is a wash of the bar's focused workspace pill (noctalia's
 # primary role, ../noctalia/material.nix): the solid pill is too stark across a
 # full-width row, so it is laid over the card at 25% and the text goes one step
-# brighter instead of dark. White stays white for the characters already typed.
+# brighter instead of dark. The typed query is accent like the URLs under it,
+# and the card glows accent all round. White stays white for the characters already typed.
 #
 # The vomnibar's class names are Vimium 2.x's (pages/vomnibar_page.css in the
 # xpi); a selector that matches nothing fails silently, and Vimium's own dark
@@ -39,7 +40,12 @@ in
   #vomnibar {
     border-color: ${rgba p.accent "0.35"};
     background-color: ${h p.bgAlt};
-    box-shadow: 0em 0.1em 0.6em 0.1em ${rgba p.accent "0.35"};
+    box-shadow: 0px 3px 22px 5px ${rgba p.accent "0.5"};
+    /* The card sits in an iframe that clips at 8px on top and sides: inset
+       it far enough for the glow, centred on the page. */
+    top: 28px;
+    left: 28px;
+    width: calc(100% - 76px);
   }
 
   #vomnibar-search-area {
@@ -54,7 +60,8 @@ in
   #vomnibar input {
     border-color: ${h p.border};
     background-color: ${h p.bgDeep};
-    color: ${h p.fg};
+    color: ${h p.accent};
+    caret-color: ${h p.accent};
   }
 
   #vomnibar ul {

@@ -86,10 +86,13 @@ in
         # Required for userChrome.css to be read at all.
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-        # Dark chrome, content following the OS. Measured, not from docs: only
-        # content-override moves content (1 light, 0 dark, 2 OS); content-theme
-        # does nothing and is pinned only so prefs.js can't keep a stale value.
-        # Sites darkened anyway are Dark Reader's doing (its synced settings).
+        # Content following the OS; the chrome is kept dark by userChrome.css.
+        # Measured, not from docs: only content-override moves content (1
+        # light, 0 dark, 2 OS). toolbar-theme and content-theme are outputs:
+        # Firefox writes them from the active theme and the default theme never
+        # reads them, so they are pinned only so prefs.js can't keep a stale
+        # value. Sites darkened anyway are Dark Reader's doing (its synced
+        # settings).
         "browser.theme.toolbar-theme" = 0;
         "browser.theme.content-theme" = 2;
         "layout.css.prefers-color-scheme.content-override" = 2;
@@ -156,6 +159,32 @@ in
 
       # The palette as custom properties, so userChrome.css stays plain CSS.
       userChrome = ":root {\n${colour.cssVars "theme" p.slots}}\n\n" + builtins.readFile ./userChrome.css;
+
+      # userContent.css reaches every web page, so the palette goes only on
+      # Firefox's own pages: the PDF viewer's root (the one <html> carrying
+      # mozdisallowselectionprint) and the session-restore pages, after a
+      # crash and after a profile refresh, which ./about-pages.css recolours.
+      # They follow the OS scheme: the light half in light mode.
+      userContent =
+        let
+          palette = root: ''
+            ${root} {
+            ${colour.cssVars "theme" p.slots}}
+
+            @media (prefers-color-scheme: light) {
+              ${root} {
+            ${colour.cssVars "theme" theme.light.hash.slots}  }
+            }
+
+          '';
+        in
+        palette ":root[mozdisallowselectionprint]"
+        + ''
+          @-moz-document url("about:sessionrestore"), url("about:welcomeback") {
+          ${palette ":root"}${builtins.readFile ./about-pages.css}}
+
+        ''
+        + builtins.readFile ./userContent.css;
     };
   };
 

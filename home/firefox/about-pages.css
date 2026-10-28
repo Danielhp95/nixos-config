@@ -1,0 +1,29 @@
+/* Firefox's own about: pages in the selected palette; ./default.nix wraps this
+ * file in an @-moz-document naming the pages, after their `--theme-*` colours.
+ * Everything on them is drawn from Firefox's design tokens, which Nova makes
+ * violet, so the tokens are given palette colours. Links, button borders and
+ * hovers, focus rings and tab-list checkboxes derive from the accent ones.
+ */
+:root {
+  --background-color-canvas: var(--theme-bg) !important;
+  /* The tab list, and its striped rows. */
+  --background-color-box: var(--theme-bg-alt) !important;
+  --table-row-background-color-alternate: var(--theme-surface) !important;
+  --text-color: var(--theme-fg) !important;
+  --border-color: var(--theme-border) !important;
+
+  --color-accent-primary: var(--theme-accent) !important;
+  --color-accent-primary-hover: var(--theme-accent-bright) !important;
+  --color-accent-primary-active: var(--theme-accent-dim) !important;
+  /* The tab list's selected row. */
+  --color-accent-primary-selected: var(--theme-accent) !important;
+  --text-color-accent-primary-selected: var(--theme-bg) !important;
+
+  --button-text-color: var(--theme-fg) !important;
+  --button-text-color-primary: var(--theme-bg) !important;
+  /* Start New Session's hover and press: accent tints, as Nova's are. */
+  --button-background-color-hover: color-mix(in srgb, var(--theme-accent) 25%, var(--theme-bg)) !important;
+  --button-background-color-active: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-bg)) !important;
+  /* Restore Session with no session to restore; Firefox also fades it. */
+  --button-background-color-primary-disabled: var(--theme-accent) !important;
+}
