@@ -843,7 +843,7 @@ local function runCard(run)
 	end
 
 	if expanded then
-		children[#children + 1] = ui.separator({ spacing = 4, color = "outline/0.4" })
+		children[#children + 1] = ui.separator({ spacing = 4, color = "outline_variant/0.4" })
 		children[#children + 1] = infoLine(run)
 		children[#children + 1] = ui.label({
 			text = describe(run),
@@ -881,12 +881,12 @@ local function runCard(run)
 		radius = 14,
 	}
 	if isPinned then
-		props.fill = expanded and "surface_variant/1.0" or "surface_variant/0.85"
+		props.fill = expanded and "surface_container/1.0" or "surface_container/0.85"
 	else
-		props.fill = expanded and "surface_variant/0.75" or "surface_variant/0.35"
+		props.fill = expanded and "surface_container/0.75" or "surface_container/0.35"
 	end
 	if expanded then
-		props.border = "outline/0.5"
+		props.border = "outline_variant/0.5"
 		props.borderWidth = 1
 	end
 	return ui.column(props, compact)

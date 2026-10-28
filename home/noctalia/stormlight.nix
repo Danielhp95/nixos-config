@@ -10,7 +10,7 @@ let
     builtins.toJSON {
       battery = "Stormlight";
       battery-low-title = "Stormlight running low";
-      battery-low-body = "{device}: {percent}%. The spheres are going dun; set them out for the next highstorm.";
+      battery-low-body = "{device}: {percent}%. The spheres are going dun.";
       battery-critical-title = "Life before death";
       battery-critical-body = "{device}: {percent}%. Your battery is dead. But I'll see what I can do.";
     }

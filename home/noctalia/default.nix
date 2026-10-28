@@ -54,6 +54,9 @@ in
         # ../vicinae/ so copies aren't recorded twice.
         clipboard_enabled = true;
         window_switcher.mru = true;
+        # Panels get a dark body instead of pure glass, so headers like "Home"
+        # stay readable over a busy window (glass | soft | solid).
+        panel_transparency = "soft";
         # Push wallpaper changes to the greeter; passwordless via the Polkit
         # rule in nixos/greeter.nix.
         greeter_sync.auto_sync = true;
@@ -111,7 +114,9 @@ in
         behavior."screen-off" = {
           enabled = true;
           action = "screen_off";
-          timeout = 660; # 11 min — a minute of locked screen before it blanks
+          timeout = 600; # 10 min
+          # Once locked, blank after a minute untouched, manual locks included.
+          locked_timeout = 60;
         };
         behavior."lock-and-suspend" = {
           enabled = false;

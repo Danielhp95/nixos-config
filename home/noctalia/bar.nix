@@ -31,7 +31,7 @@ in
       widget_spacing = 8;
       shadow = true;
       capsule = true;
-      capsule_fill = "surface_variant";
+      capsule_fill = "surface_container";
       capsule_opacity = 1.0;
       # Fraction of bar thickness (default 0.76); the pills are the whole bar.
       capsule_thickness = 0.88;
@@ -60,7 +60,7 @@ in
             "clock"
             "weather"
           ];
-          fill = "surface_variant";
+          fill = "surface_container";
         }
         {
           id = "tray";
@@ -69,7 +69,7 @@ in
             "tailnet"
             "notifications"
           ];
-          fill = "surface_variant";
+          fill = "surface_container";
         }
         {
           id = "volbright";
@@ -78,7 +78,7 @@ in
             "volume"
             "brightness"
           ];
-          fill = "surface_variant";
+          fill = "surface_container";
         }
         {
           id = "sysmon";
@@ -87,7 +87,7 @@ in
             "ram"
             "battery"
           ];
-          fill = "surface_variant";
+          fill = "surface_container";
         }
       ];
     };
