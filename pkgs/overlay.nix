@@ -27,6 +27,8 @@ in
       )
     '';
   });
+  # The release AppImage in an FHS sandbox (./openwhispr: why not upstream's).
+  openwhispr = final.callPackage ./openwhispr/package.nix { };
   # danvim with the selected palette injected (./danvim.nix).
   danvim = import ./danvim.nix { inherit inputs system theme; };
   # hy3 links against Hyprland's headers: build it against this Hyprland.
@@ -44,9 +46,7 @@ in
   inherit (inputs.hyprland.packages.${system}) xdg-desktop-portal-hyprland;
   # Patched; each body sits beside the configuration that depends on it.
   wl-kbptr = final.callPackage ../home/hyprland/wl-kbptr/package.nix { inherit (prev) wl-kbptr; };
-  hyprland-preview-share-picker = final.callPackage ../home/hyprland/share-picker/package.nix {
-    picker = inputs.hyprland-preview-share-picker.packages.${system}.default;
-  };
+  hyprland-preview-share-picker = inputs.hyprland-preview-share-picker.packages.${system}.default;
   # nixos-unstable at a date or commit: (pkgs.multiverse.at "2026-10-02").<name>.
   multiverse = inputs.multiverse.lib.mkMultiverse {
     inherit (final.stdenv.hostPlatform) system;

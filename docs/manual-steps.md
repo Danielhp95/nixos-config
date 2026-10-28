@@ -20,6 +20,26 @@ What a rebuild cannot do. Each item names the module whose comments say why.
   store link, so a change made in fcitx5-configtool has to be ported into that
   file. It holds only non-default keys: port the keys the change touched, not
   the whole configtool dump.
+- **caracole** (`nixos/caracole.nix`): log in again, for group `caracole`.
+  Then build Ultimate Guitar's index once, `sudo caracole-admin index build`
+  (about 10 minutes), or move in a library a caracole run by hand kept, with
+  nothing else running caracole on it:
+
+  ```sh
+  sudo systemctl stop caracole-web.service
+  L=/var/lib/caracole
+  # The service's own database goes, its WAL with it: a WAL left beside
+  # another database corrupts it.
+  sudo rm -f $L/state/caracole.sqlite $L/state/caracole.sqlite-wal $L/state/caracole.sqlite-shm
+  sudo rsync -a --chown=caracole:caracole ~/Tabs/ $L/library/
+  sudo rsync -a --chown=caracole:caracole ~/.cache/caracole/ $L/cache/
+  sudo rsync -a --chown=caracole:caracole --include='caracole.sqlite' \
+    --include='caracole.sqlite-wal' --exclude='*' ~/.local/state/caracole/ $L/state/
+  # rsync copied ~/Tabs's own mode: the group writes, and keeps, the library.
+  sudo chmod -R g+rwX $L/library
+  sudo find $L/library -type d -exec chmod g+s {} +
+  sudo systemctl start caracole-web.service
+  ```
 
 ## After a switch
 
@@ -40,3 +60,6 @@ What a rebuild cannot do. Each item names the module whose comments say why.
   (`git cat-file --batch-check`) is the other way out.
 - **danvim** (`flake.nix`): a commit in `danvim/` reaches a rebuild only after
   `nix flake update danvim`.
+- **caracole** (`flake.nix`): a push to its `main` reaches a rebuild only after
+  `nix flake update caracole`. A switch never cuts a nightly run short; the
+  next run uses the new package.

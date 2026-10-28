@@ -1,6 +1,6 @@
 # The screen-share picker xdg-desktop-portal-hyprland opens: window and monitor
-# previews instead of a bare list. The package (./package.nix) is
-# pkgs.hyprland-preview-share-picker through the overlay.
+# previews instead of a bare list. The package is the flake input's own, bound as
+# pkgs.hyprland-preview-share-picker in pkgs/overlay.nix.
 { pkgs, theme, ... }:
 {
   home.packages = [ pkgs.hyprland-preview-share-picker ];

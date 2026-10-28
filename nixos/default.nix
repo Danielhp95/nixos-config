@@ -29,6 +29,7 @@ in
     ./power.nix
     ./desktop.nix
     ./locale.nix
+    ./caracole.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -91,6 +92,7 @@ in
     extraGroups = [
       "wheel"
       "ydotool" # access to the ydotoold socket (keyboard-driven scrolling)
+      "uinput" # /dev/uinput, for OpenWhispr's paste helper (nixos/desktop.nix)
     ];
     hashedPassword = "$y$j9T$BS53tFZ/aYhulnHaIPdfV1$RgynhBpss3Mkz6Rliz3nn4KsTaQ9RI1mdB8qLb5OdxC";
   };

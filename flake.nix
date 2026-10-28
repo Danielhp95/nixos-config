@@ -29,7 +29,7 @@
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
-      rev = "663b29b846e4bad17cfa29941f6d2fbb6b61f139";
+      rev = "c4e7596a3db89cb0d213eeb3e436599422995b43";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -57,8 +57,12 @@
     # go.mod without bumping it fails to build. Re-pin the previous rev then.
     iris.url = "github:versenilvis/IRIS/96597b495b2aba305b0687e9460b06fab0a44208";
     iris.inputs.nixpkgs.follows = "nixpkgs";
-    penguin-mail.url = "github:c9dev/penguin-mail/8e0850a6e1c6f367e71933c8bf5a941bcf199ce0";
+    penguin-mail.url = "github:c9dev/penguin-mail/v1.0.11";
     penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
+    # The chord sheet library (nixos/caracole.nix). Its own nixpkgs, not ours:
+    # its build runs its tests, which a newer tomlkit or ChordPro fails. A push
+    # to its main reaches a rebuild only after `nix flake update caracole`.
+    caracole.url = "github:Danielhp95/caracole";
     # Separate repo, gitignored here. A commit there reaches a rebuild only
     # after `nix flake update danvim`.
     danvim.url = "path:/home/dani/nix_config/danvim";

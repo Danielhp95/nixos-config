@@ -11,6 +11,8 @@ in
   # Starship, fzf, zoxide, atuin and tv add their nushell init by default.
   programs.nushell = {
     enable = true;
+    # Keep the pre-26.11 default; home.stateVersion is still 24.05.
+    loadSessionVariables = false;
 
     settings = {
       show_banner = false;

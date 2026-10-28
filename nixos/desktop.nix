@@ -4,6 +4,10 @@
 { pkgs, ... }:
 {
   programs.ydotool.enable = true;
+  # /dev/uinput for the uinput group (udev rule + module). ydotool's module
+  # does not: ydotoold has its own access. OpenWhispr's fast-paste helper
+  # (home/apps.nix) opens /dev/uinput itself.
+  hardware.uinput.enable = true;
 
   # Backend for noctalia's screen_recorder plugin; the module adds the
   # setcap'd gsr-kms-server wrapper that KMS capture needs.
