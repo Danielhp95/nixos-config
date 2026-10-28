@@ -81,6 +81,14 @@ in
         rev = "80e5268ec74c7ac17d4d739e13a9958cba4c70d3";
         hash = "sha256-9cdA8D/TtwHcLqrtoyIixA0YJmTs+c8FSNrjxp8CYI0=";
       };
+      # Copy and paste files through the Wayland clipboard (wl-clipboard comes
+      # from ../hyprland); falls back to yazi's own yank/paste when it's empty.
+      ucp = pkgs.fetchFromGitHub {
+        owner = "simla33";
+        repo = "ucp.yazi";
+        rev = "5ef8203d9d061f57b444b2c031f3b6172b060a03";
+        hash = "sha256-G6PiS+srbxNu30Vz9Q1k3thfuQySMuNpdtmwgf6CjQc=";
+      };
       yamb = pkgs.fetchFromGitHub {
         owner = "h-hg";
         repo = "yamb.yazi";

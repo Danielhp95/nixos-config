@@ -39,6 +39,8 @@ in
   # Move to sibling dir of the parent without leaving cwd
   (key "K" "plugin parent-arrow -1" "Parent dir up")
   (key "J" "plugin parent-arrow 1" "Parent dir down")
+  (key "y" "plugin ucp copy" "Yank, also to the system clipboard")
+  (key "p" "plugin ucp paste" "Paste, from the system clipboard first")
   # Trash restore (needs trash-cli)
   (key "d u" "plugin restore" "Restore last deleted files/folders")
   # Bookmarks (yamb)
