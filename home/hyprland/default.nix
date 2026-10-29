@@ -46,6 +46,44 @@ let
     '';
   };
 
+  # Find text on the focused output and click it (wl-find.nu says how). QML
+  # colours take an alpha byte first: #AARRGGBB.
+  findBar = pkgs.replaceVars ./wl-find.qml {
+    # wl-kbptr's dim (mode_floating.unselectable_bg_color), so its hints take
+    # over without a change of shade.
+    dim = "#66${c.bgDeep}";
+    bg = "#${c.bg}";
+    border = "#${c.border}";
+    accent = "#${c.accent}";
+    accentDim = "#${c.accentDim}";
+    fg = "#${c.fg}";
+    fgDim = "#${c.fgDim}";
+    error = "#${c.error}";
+    font = f.mono;
+    # The service's PATH is bare: what the bar runs, it runs by store path.
+    sh = pkgs.runtimeShell;
+    coreutils = "${pkgs.coreutils}/bin";
+  };
+  findScript = pkgs.writers.writeNuBin "wl-find" {
+    makeWrapperArgs = [
+      "--set"
+      "WL_FIND_QML"
+      findBar
+      "--prefix"
+      "PATH"
+      ":"
+      (lib.makeBinPath [
+        config.wayland.windowManager.hyprland.finalPackage
+        pkgs.quickshell
+        pkgs.grim
+        pkgs.imagemagick # wl-find.nu's dark-on-light pass before tesseract
+        pkgs.tesseract5
+        pkgs.wl-kbptr
+        pkgs.wlrctl
+      ])
+    ];
+  } (builtins.readFile ./wl-find.nu);
+
   # Projector mirroring with Hyprland's native mirror, which letterboxes the
   # 16:10 panel on a 16:9 screen instead of stretching it. The rule goes in
   # through `hyprctl eval` and survives a reload via hyprland.lua's runtime-state
@@ -147,6 +185,7 @@ in
       # fails the evaluation instead of leaving a dead bind.
       bin._var = {
         ocr = lib.getExe ocrScript;
+        find = lib.getExe findScript;
         present = lib.getExe presentScript;
         volume = lib.getExe pkgs.volume-all-sinks;
       };
@@ -165,6 +204,22 @@ in
   # Polkit auth prompts; the module's unit is WantedBy=graphical-session.target.
   services.hyprpolkitagent.enable = true;
 
+  # wl-find's find bar, kept loaded so the bar is up the moment wl-find opens
+  # it over IPC; started cold, Qt and the QML take ~0.2 s.
+  systemd.user.services.wl-find-bar = {
+    Unit = {
+      Description = "wl-find's find bar (Quickshell)";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.quickshell}/bin/qs --path ${findBar}";
+      Restart = "always";
+      RestartSec = 1;
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
   home.packages = with pkgs; [
     libnotify
 
@@ -173,6 +228,7 @@ in
     wl-mirror
 
     ocrScript
+    findScript
     presentScript
 
     slurp # the palette-coloured wrapper from the let block
