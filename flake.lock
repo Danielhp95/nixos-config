@@ -38,11 +38,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1793157554,
-        "narHash": "sha256-zhrET4l0KG7zlotGYBLpY2ALwNWudCHgyyHlYsTfDXI=",
+        "lastModified": 1793308316,
+        "narHash": "sha256-YQcj9bfek2F23RHDHiUFmivxHXIQH62RbQwIgqQSTF0=",
         "owner": "Danielhp95",
         "repo": "caracole",
-        "rev": "3cd6c702d02e2b4f0e3c351ce657565f91dfab72",
+        "rev": "b77f6ad021aa0b3a07a7afc62bd9d173bbb5bc72",
         "type": "github"
       },
       "original": {

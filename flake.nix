@@ -59,9 +59,6 @@
     iris.inputs.nixpkgs.follows = "nixpkgs";
     penguin-mail.url = "github:c9dev/penguin-mail/v1.0.11";
     penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
-    # The chord sheet library (nixos/caracole.nix). Its own nixpkgs, not ours:
-    # its build runs its tests, which a newer tomlkit or ChordPro fails. A push
-    # to its main reaches a rebuild only after `nix flake update caracole`.
     caracole.url = "github:Danielhp95/caracole";
     # Separate repo, gitignored here. A commit there reaches a rebuild only
     # after `nix flake update danvim`.

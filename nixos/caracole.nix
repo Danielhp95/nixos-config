@@ -18,6 +18,10 @@
       # the unit for good when tailscale is not up 5 minutes after boot.
       address = "0.0.0.0";
     };
+    # Chords worked out from audio: the caracole-autochords unit after each
+    # nightly run, the YouTube step, and the page's sheet from a YouTube video.
+    # Brings torch, beat_this, librosa, yt-dlp and the two model files.
+    autochords.enable = true;
   };
 
   # The library is group caracole, setgid, mode 2775: wanted.txt,
