@@ -10,6 +10,7 @@
   # read it. A failed unit says so in the journal alone.
   services.caracole = {
     enable = true;
+    settings.name = "horde_logbook";
     web = {
       enable = true;
       # Every address, which the firewall keeps to this machine and the

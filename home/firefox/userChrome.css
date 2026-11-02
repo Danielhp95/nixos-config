@@ -30,6 +30,7 @@ panel {
   --toolbar-field-text-color-focus: var(--theme-fg) !important;
   --toolbar-field-border-color: transparent !important;
   --toolbar-field-border-color-focus: var(--theme-accent) !important;
+  --urlbarview-text-color-selected: var(--theme-fg) !important;
 
   --tab-background-color-selected: var(--theme-surface) !important;
   --tab-selected-textcolor: var(--theme-fg) !important;

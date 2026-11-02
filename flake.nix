@@ -29,11 +29,11 @@
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
-      rev = "c4e7596a3db89cb0d213eeb3e436599422995b43";
+      rev = "d55a55d72a2ecfbb31b875b0b45c27559ce86691";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hy3.url = "github:outfoxxed/hy3/c35adfa3620a88484fafbbe37dc4d99b19319308";
+    hy3.url = "github:outfoxxed/hy3/4c0199b42967b3511e3520b75cfa1f6411fb7e87";
     hy3.inputs.hyprland.follows = "hyprland";
     # A git fetch: a GitHub tarball leaves out its hyprland-protocols submodule.
     hyprland-preview-share-picker = {
@@ -55,11 +55,16 @@
     claude-code.inputs.nixpkgs.follows = "nixpkgs";
     # Pinned: upstream is beta and pins a vendorHash, so an update that changes
     # go.mod without bumping it fails to build. Re-pin the previous rev then.
-    iris.url = "github:versenilvis/IRIS/96597b495b2aba305b0687e9460b06fab0a44208";
+    # iris.url = "github:versenilvis/IRIS/96597b495b2aba305b0687e9460b06fab0a44208";
+    iris.url = "github:versenilvis/IRIS";
     iris.inputs.nixpkgs.follows = "nixpkgs";
+
     penguin-mail.url = "github:c9dev/penguin-mail/v1.0.11";
     penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
     caracole.url = "github:Danielhp95/caracole";
+    # Super+/ (home/hyprland): the package and its Home Manager module.
+    wl-find.url = "github:Danielhp95/wl-find";
+    wl-find.inputs.nixpkgs.follows = "nixpkgs";
     # Separate repo, gitignored here. A commit there reaches a rebuild only
     # after `nix flake update danvim`.
     danvim.url = "path:/home/dani/nix_config/danvim";

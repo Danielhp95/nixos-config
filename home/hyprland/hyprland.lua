@@ -541,7 +541,7 @@ hl.bind(
 	hl.dsp.exec_cmd("wl-kbptr --drag"),
 	{ description = "Keyboard-driven mouse control — drag (wl-kbptr)" }
 )
--- Ctrl+F for the whole screen: OCR, then a click on the match (wl-find.nu).
+-- Ctrl+F for the whole screen: OCR, then a click on the match (wl-find, ./default.nix).
 hl.bind(mod .. " + slash", hl.dsp.exec_cmd(bin.find), { description = "Find text on screen and click it" })
 -- Volume / Brightness. The media keys arrive as bare XF86 keysyms (FN is
 -- resolved in keyboard firmware), so they take no modifier; `locked` keeps them
@@ -715,11 +715,9 @@ hl.layer_rule({ name = "vicinae-no-animation", match = { namespace = "vicinae" }
 -- wl-kbptr's overlay uses the same namespace, so its hints appear at once too.
 hl.layer_rule({ name = "slurp-no-anim", match = { namespace = "^selection$" }, no_anim = true })
 -- wl-find's dim ("wl-find") and bar ("wl-find-bar"): shown at once, and gone the
--- moment they close, before the click or wl-kbptr's hints. The bar is up before
--- the screen is captured, so captures black it out (tesseract would read the
--- query), and the dim, mapped after it, is ordered below it.
+-- moment they close, before the click or wl-kbptr's hints. The dim, mapped
+-- after the bar, is ordered below it (wl-find cuts the bar out of the dim too).
 hl.layer_rule({ name = "wl-find-no-anim", match = { namespace = "^wl-find" }, no_anim = true })
-hl.layer_rule({ name = "wl-find-bar-no-capture", match = { namespace = "^wl-find-bar$" }, no_screen_share = true })
 hl.layer_rule({ name = "wl-find-dim-below-bar", match = { namespace = "^wl-find$" }, order = 1 })
 
 -- ─────────────────────────────────────────────────────────────────────────────
