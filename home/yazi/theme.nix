@@ -54,11 +54,13 @@
     border_style.fg = p.accentDim;
   };
 
-  # Hovered row: filetype fg on a surface bg, like fzf/television; the
-  # preset's reverse video turns every hover into a loud pill.
+  # Hovered row: filetype fg on a border bg, the same step danvim's
+  # bufferline gives the current buffer (buffer_selected), so the selection
+  # reads equally in every palette; the preset's reverse video turns every
+  # hover into a loud pill.
   indicator = {
-    parent.bg = p.surface;
-    current.bg = p.surface;
+    parent.bg = p.border;
+    current.bg = p.border;
     preview.underline = true;
   };
 
