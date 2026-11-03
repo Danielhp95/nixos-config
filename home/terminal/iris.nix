@@ -193,6 +193,9 @@ in
         # plugin only checks that this variable exists).
         typeset -g _ZSH_AUTOSUGGEST_DISABLED
 
+        # Make atuin + iris behave in tmux
+        atuin() { ATUIN_INLINE_HEIGHT=0 command atuin "$@" }
+
         # IRIS applies a suggestion by typing it into the pty; autopair would
         # close its quotes and parens a second time.
         AUTOPAIR_INHIBIT_INIT=1
