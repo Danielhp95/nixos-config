@@ -33,6 +33,11 @@ in
   ];
 
   nixpkgs.config.allowUnfree = true;
+  # nixpkgs marks gtk2 broken ahead of its removal (NixOS/nixpkgs#410814), but
+  # home-manager's i18n.inputMethod (home/fcitx5) still builds a GTK2 immodule
+  # cache with it unconditionally. Drop this once nix-community/home-manager#10132
+  # is fixed: the "gtk+ is marked broken" warning on each eval is the reminder.
+  nixpkgs.config.problems.handlers."gtk+".broken = "warn";
   nixpkgs.overlays = [
     inputs.claude-code.overlays.default
     inputs.firefox-addons.overlays.default # pkgs.firefox-addons.*

@@ -29,7 +29,7 @@
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
-      rev = "d55a55d72a2ecfbb31b875b0b45c27559ce86691";
+      rev = "7cc61bc9a0b00ea90cfcb1055227f0937c527d32";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
