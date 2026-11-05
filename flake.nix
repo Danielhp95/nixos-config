@@ -29,7 +29,7 @@
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
-      rev = "7cc61bc9a0b00ea90cfcb1055227f0937c527d32";
+      rev = "f389f008228d51fa48bdd69a4c9e2b91f24bb2da";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -61,6 +61,9 @@
 
     penguin-mail.url = "github:c9dev/penguin-mail/v1.0.11";
     penguin-mail.inputs.nixpkgs.follows = "nixpkgs";
+    # Terminal torrent search and download client.
+    tork.url = "github:melqtx/tork";
+    tork.inputs.nixpkgs.follows = "nixpkgs";
     caracole.url = "github:Danielhp95/caracole";
     # Super+/ (home/hyprland): the package and its Home Manager module.
     wl-find.url = "github:Danielhp95/wl-find";
