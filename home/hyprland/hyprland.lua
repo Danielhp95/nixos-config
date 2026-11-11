@@ -440,7 +440,12 @@ hl.bind(mod .. " + F", hl.dsp.window.fullscreen(), { description = "Toggle fulls
 -- has to create it, i.e. while it holds no window. Plain `kitty`, not the `-1`
 -- of the terminal bind: Hyprland places the process it started, and with `-1`
 -- the window would come from the kitty already running.
-hl.workspace_rule({ workspace = "special:special", on_created_empty = "kitty" })
+-- (Replaces the deprecated on_created_empty workspace rule.)
+hl.on("workspace.created", function(ws)
+	if ws and ws.name == "special:special" and ws.is_empty then
+		hl.dispatch(hl.dsp.exec_cmd("kitty"))
+	end
+end)
 hl.bind(mod .. " + Minus", hl.dsp.workspace.toggle_special(), { description = "Toggle special workspace" })
 hl.bind(
 	mod .. " + SHIFT + Minus",
